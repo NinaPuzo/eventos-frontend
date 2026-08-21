@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
+import NavBar from "./Navbar";
 
 function Header() {
   return (
     <header className="flex w-full h-20 items-center justify-between p-10 bg-mauve-200">
       <Link to="/">Eventos</Link>
 
-      <nav className="bg-mauve-400">Meni</nav>
+      <NavBar />
 
       <div className="flex gap-4">
         <Link to="/login">Prijavi se</Link>

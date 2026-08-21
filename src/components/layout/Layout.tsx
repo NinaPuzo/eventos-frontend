@@ -7,10 +7,6 @@ function Layout() {
     <>
       <Header />
 
-      <main>
-        <Outlet />
-      </main>
-
       <Footer />
     </>
   );
