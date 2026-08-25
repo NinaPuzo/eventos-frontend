@@ -10,33 +10,44 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import EventPage from "./pages/EventPage";
+import type { User } from "@shared/types/User";
 
 function App() {
   const [userRoleId, setUserRoleId] = useState("1");
 
-  return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/events" element={<EventPage />} />
-        <Route path="/event/:id" element={<EventDetailsPage />} />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute
-              element={<AdminPage />}
-              allowedRoleIds={["1"]}
-              userRoleId={userRoleId}
-            ></ProtectedRoute>
-          }
-        />
-      </Routes>
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-      <Footer />
-    </BrowserRouter>
+  return (
+    <div className="flex flex-col min-h-screen">
+      <BrowserRouter>
+        <Header currentUser={currentUser} setCurrentUser={setCurrentUser} />
+
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/login"
+              element={<LoginPage setCurrentUser={setCurrentUser} />}
+            />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/events" element={<EventPage />} />
+            <Route path="/event/:id" element={<EventDetailsPage />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute
+                  element={<AdminPage />}
+                  allowedRoleIds={["1"]}
+                  userRoleId={userRoleId}
+                ></ProtectedRoute>
+              }
+            />
+          </Routes>
+        </main>
+
+        <Footer />
+      </BrowserRouter>
+    </div>
   );
 }
 
