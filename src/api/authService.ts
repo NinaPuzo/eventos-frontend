@@ -11,3 +11,30 @@ export function login(
 
   return Promise.resolve(user);
 }
+
+export function register(
+  name: string,
+  lastname: string,
+  email: string,
+  password: string,
+): Promise<User | null> {
+  const registeredUser = users.find(
+    (user) => user.email.toLowerCase() === email.toLowerCase(),
+  );
+
+  if (registeredUser) {
+    return Promise.resolve(null);
+  }
+
+  const newUser: User = {
+    id: users.length + 1,
+    name,
+    lastname,
+    email,
+    password,
+  };
+
+  users.push(newUser);
+
+  return Promise.resolve(newUser);
+}
