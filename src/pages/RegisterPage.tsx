@@ -2,6 +2,7 @@ import { useState } from "react";
 import { register } from "../api/authService";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/global/Input";
+import Button from "../components/global/Button";
 
 function RegisterPage() {
   const [name, setName] = useState("");
@@ -73,9 +74,11 @@ function RegisterPage() {
           className="border"
         />
 
-        <button type="submit" className="cursor-pointer bg-blue-200 p-2">
-          Registruj se
-        </button>
+        <Button
+          type="submit"
+          className="cursor-pointer bg-blue-200 p-2"
+          label="Registruj se"
+        />
       </form>
     </div>
   );
