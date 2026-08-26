@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { login } from "../api/authService";
 import { useNavigate } from "react-router-dom";
-import type { User } from "@shared/types/User";
 import Button from "../components/global/Button";
+import AuthContext from "../context/AuthContext";
 
-type LoginPageProps = {
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
-};
-
-function LoginPage({ setCurrentUser }: LoginPageProps) {
+function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("LoginPage mora biti unutar AuthContext.Provider-a");
+  }
+
+  const { setCurrentUser } = authContext;
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -43,6 +47,7 @@ function LoginPage({ setCurrentUser }: LoginPageProps) {
           <input
             id="email"
             type="email"
+            value={email}
             className="border"
             onChange={(event) => setEmail(event.target.value)}
           />

@@ -1,14 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "./Navbar";
-import type { User } from "@shared/types/User";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
-type HeaderProps = {
-  currentUser: User | null;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
-};
-
-function Header({ currentUser, setCurrentUser }: HeaderProps) {
+function Header() {
   const navigate = useNavigate();
+
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("Header mora biti unutar AuthContext.Provider-a");
+  }
+
+  const { currentUser, setCurrentUser } = authContext;
 
   function handleLogout() {
     setCurrentUser(null);
