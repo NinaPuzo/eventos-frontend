@@ -3,64 +3,62 @@ import type { Event } from "@shared/types/Event";
 export const events: Event[] = [
   {
     id: 1,
-    name: "Koncert 1",
-    description: "Opis dogadjaja Koncert.",
+    name: "Imagine Dragons",
+    description: "Koncert svetski poznatog alternativnog rok benda.",
     category: "Koncert",
+    date: "15. septembar 2026.",
+    time: "20:00",
+    price: 4500,
+    image: "/images/imagine-dragons.jpg",
   },
-
   {
     id: 2,
-    name: "Koncert 2",
-    description: "Opis dogadjaja Koncert.",
+    name: "Arctic Monkeys",
+    description: "Koncert popularnog britanskog rok benda.",
     category: "Koncert",
+    date: "28. septembar 2026.",
+    time: "21:00",
+    price: 5200,
+    image: "/images/arctic-monkeys.jpg",
   },
-
   {
     id: 3,
-    name: "Koncert 3",
-    description: "Opis dogadjaja Koncert.",
+    name: "Dua Lipa",
+    description: "Veliki pop spektakl u okviru evropske turneje.",
     category: "Koncert",
+    date: "10. oktobar 2026.",
+    time: "20:30",
+    price: 6000,
+    image: "/images/dua-lipa.jpg",
   },
-
   {
     id: 4,
-    name: "Sport 1",
-    description: "Opis dogadjaja Sport.",
+    name: "Crvena zvezda – Partizan",
+    description: "Fudbalski derbi najvećih beogradskih rivala.",
     category: "Sport",
+    date: "18. oktobar 2026.",
+    time: "19:00",
+    price: 2500,
+    image: "/images/derbi.jpg",
   },
-
   {
     id: 5,
-    name: "Sport 2",
-    description: "Opis dogadjaja Sport.",
-    category: "Sport",
+    name: "Belgrade Music Festival",
+    description: "Festival domaćih i regionalnih muzičkih izvođača.",
+    category: "Festival",
+    date: "24. jul 2027.",
+    time: "18:00",
+    price: 7000,
+    image: "/images/belgrade-festival.jpg",
   },
-
   {
     id: 6,
-    name: "Sport 3",
-    description: "Opis dogadjaja Sport.",
+    name: "Srbija – Italija",
+    description: "Košarkaška utakmica reprezentacija Srbije i Italije.",
     category: "Sport",
-  },
-
-  {
-    id: 7,
-    name: "Festival 1",
-    description: "Opis dogadjaja Festival.",
-    category: "Festival",
-  },
-
-  {
-    id: 8,
-    name: "Festival 2",
-    description: "Opis dogadjaja Festival.",
-    category: "Festival",
-  },
-
-  {
-    id: 9,
-    name: "Festival 3",
-    description: "Opis dogadjaja Festival.",
-    category: "Festival",
+    date: "12. novembar 2026.",
+    time: "20:00",
+    price: 3000,
+    image: "/images/serbia-italy.jpg",
   },
 ];

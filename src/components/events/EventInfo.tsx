@@ -1,0 +1,61 @@
+import type { Event } from "@shared/types/Event";
+import { useState } from "react";
+import Button from "../global/Button";
+
+type EventInfoProps = {
+  event: Event;
+};
+
+function EventInfo({ event }: EventInfoProps) {
+  const [quantity, setQuantity] = useState(0);
+
+  function handleAddToCart() {
+    const cartItem = {
+      eventId: event.id,
+      quantity: quantity,
+    };
+
+    localStorage.setItem("cart", JSON.stringify(cartItem));
+  }
+
+  return (
+    <div className="flex flex-col w-[65%]  gap-5">
+      <h1 className="text-2xl font-bold">{event.name}</h1>
+
+      <div className="flex flex-col ">
+        <p className="text-lg">Datum: {event.date}</p>
+        <p className="text-lg">Vreme: {event.time}</p>
+        <p className="text-lg">Cena ulaznice: {event.price},00 RSD</p>
+      </div>
+
+      <div className="flex flex-row justify-between w-full border-t pt-6">
+        <p className="text-lg">Količina</p>
+        <div className=" flex flex-row w-[25%] justify-between items-center">
+          <button
+            onClick={() => setQuantity(quantity - 1)}
+            className="flex cursor-pointer bg-mauve-300 px-4 text-2xl items-center justify-center "
+          >
+            -
+          </button>
+
+          <p className="text-xl ">{quantity}</p>
+
+          <button
+            onClick={() => setQuantity(quantity + 1)}
+            className="flex cursor-pointer bg-mauve-300 px-4 text-2xl items-center justify-center "
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <button
+        onClick={handleAddToCart}
+        className="ml-auto w-[25%] bg-blue-200 py-1"
+      >
+        Dodaj u korpu
+      </button>
+    </div>
+  );
+}
+export default EventInfo;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getEventsById } from "../api/eventsService";
 import type { Event } from "@shared/types/Event";
+import EventInfo from "../components/events/EventInfo";
 
 function EventDetailsPage() {
   const { id } = useParams();
@@ -18,9 +19,19 @@ function EventDetailsPage() {
   }, [id]);
 
   return (
-    <div>
-      <h1>Dogadjaj je: {event?.name}</h1>
-      <p>Opis dogadjaja: {event?.description}</p>
+    <div className="flex flex-col  w-full py-10 ">
+      <div className="flex flex-row mx-auto w-[90%] bg-mauve-100 p-10 gap-10 min-h-[400px]">
+        <div className="flex w-[35%] justify-center border bg-mauve-200">
+          <p>Slika dogadjaja</p>
+        </div>
+
+        {event && <EventInfo event={event} />}
+      </div>
+
+      <div className="mx-auto mt-10 w-[90%] border p-10">
+        <h2 className="text-xl font-semibold">Opis dogadjaja</h2>
+        <p>{event?.description}</p>
+      </div>
     </div>
   );
 }

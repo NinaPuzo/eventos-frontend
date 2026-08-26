@@ -11,6 +11,7 @@ import Footer from "./components/layout/Footer";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import EventPage from "./pages/EventPage";
 import AuthProvider from "./context/AuthProvider";
+import CartPage from "./pages/CartPage";
 
 function App() {
   const [userRoleId, setUserRoleId] = useState("1");
@@ -28,6 +29,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/events" element={<EventPage />} />
               <Route path="/event/:id" element={<EventDetailsPage />} />
+              <Route path="/cart" element={<CartPage />} />
               <Route
                 path="/admin"
                 element={
