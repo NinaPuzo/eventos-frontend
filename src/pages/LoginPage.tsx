@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { login } from "../api/authService";
 import { useNavigate } from "react-router-dom";
 import type { User } from "@shared/types/User";
+import Button from "../components/global/Button";
 
 type LoginPageProps = {
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -60,9 +61,11 @@ function LoginPage({ setCurrentUser }: LoginPageProps) {
 
         {error && <p className="text-center text-sm text-red-600">{error}</p>}
 
-        <button type="submit" className="cursor-pointer bg-blue-200 p-2">
-          Prijavi se
-        </button>
+        <Button
+          type="submit"
+          className="cursor-pointer bg-blue-200 p-2"
+          label="Prijavi se"
+        />
       </form>
     </div>
   );
