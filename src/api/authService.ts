@@ -1,40 +1,52 @@
 import type { User } from "@shared/types/User";
 import { users } from "../data/users";
+import { ApiClient } from "./apiClient";
+import type { LoginRequest } from "@shared/types/LoginRequest";
+import type { LoginResponse } from "@shared/types/LoginResponse";
+import { AuthStatus } from "../shared/constants/AuthStatus";
 
-export function login(
-  email: string,
-  password: string,
-): Promise<User | undefined> {
-  const user = users.find(
-    (user) => user.email === email && user.password === password,
-  );
+export async function login(credentials: LoginRequest): Promise<string> {
+  try {
+    const response = await ApiClient.post<LoginResponse>(
+      "/api/auth/login",
+      credentials,
+    );
 
-  return Promise.resolve(user);
+    if (response.data) {
+      localStorage.setItem(
+        "accessToken",
+        JSON.stringify(response.data.accessToken),
+      );
+
+      localStorage.setItem(
+        "refreshToken",
+        JSON.stringify(response.data.refreshToken),
+      );
+
+      return AuthStatus.AUTHORIZED;
+    } else {
+      return AuthStatus.UNAUTHORIZED;
+    }
+  } catch (error) {
+    console.error(error);
+    return AuthStatus.ERROR;
+  }
 }
 
-export function register(
-  name: string,
-  lastname: string,
-  email: string,
-  password: string,
-): Promise<User | null> {
-  const registeredUser = users.find(
-    (user) => user.email.toLowerCase() === email.toLowerCase(),
-  );
+type RegisterRequest = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
 
-  if (registeredUser) {
-    return Promise.resolve(null);
+export async function register(data: RegisterRequest): Promise<boolean> {
+  try {
+    const response = await ApiClient.post("/api/auth/register", data);
+
+    return response.status === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
-
-  const newUser: User = {
-    id: users.length + 1,
-    name,
-    lastname,
-    email,
-    password,
-  };
-
-  users.push(newUser);
-
-  return Promise.resolve(newUser);
 }

@@ -3,6 +3,7 @@ import { login } from "../api/authService";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/global/Button";
 import AuthContext from "../context/AuthContext";
+import { AuthStatus } from "../shared/constants/AuthStatus";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -22,15 +23,16 @@ function LoginPage() {
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const user = await login(email, password);
+    const authStatus = await login({ email, password });
 
-    if (user) {
-      setCurrentUser(user);
-      setError("");
-      navigate("/");
-    } else {
+    if (authStatus === AuthStatus.AUTHORIZED) {
+      // pozovi get user
+      console.log("Uspeo sam");
+    } else if (authStatus === AuthStatus.UNAUTHORIZED) {
       setError("Pogresan e-mail ili lozinka.");
       setPassword("");
+    } else {
+      setError("Doslo je do neocekivane greske.");
     }
   }
 

@@ -5,8 +5,8 @@ import Input from "../components/global/Input";
 import Button from "../components/global/Button";
 
 function RegisterPage() {
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [firstName, setName] = useState("");
+  const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,9 +15,14 @@ function RegisterPage() {
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const user = await register(name, lastname, email, password);
+    const isRegistered = await register({
+      email,
+      firstName,
+      lastName,
+      password,
+    });
 
-    if (user) {
+    if (isRegistered) {
       navigate("/login");
     }
   }
@@ -34,7 +39,7 @@ function RegisterPage() {
           label="Ime"
           id="name"
           type="text"
-          value={name}
+          value={firstName}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setName(event.target.value)
           }
@@ -45,7 +50,7 @@ function RegisterPage() {
           label="Prezime"
           id="lastname"
           type="text"
-          value={lastname}
+          value={lastName}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setLastname(event.target.value)
           }
