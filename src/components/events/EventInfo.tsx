@@ -49,12 +49,12 @@ function EventInfo({ event }: EventInfoProps) {
         </div>
       </div>
 
-      <button
+      <Button
+        type="button"
         onClick={handleAddToCart}
-        className="ml-auto w-[25%] bg-blue-200 py-1"
-      >
-        Dodaj u korpu
-      </button>
+        className="cursor-pointer ml-auto w-full bg-blue-200 py-1"
+        label="Dodaj u korpu"
+      />
     </div>
   );
 }

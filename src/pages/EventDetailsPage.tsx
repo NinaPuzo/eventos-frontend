@@ -22,7 +22,7 @@ function EventDetailsPage() {
     <div className="flex flex-col  w-full py-10 ">
       <div className="flex flex-row mx-auto w-[90%] bg-mauve-100 p-10 gap-10 min-h-[400px]">
         <div className="flex w-[35%] justify-center border bg-mauve-200">
-          <p>Slika dogadjaja</p>
+          <img alt="Slika dogadjaja"></img>
         </div>
 
         {event && <EventInfo event={event} />}
