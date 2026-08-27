@@ -42,6 +42,7 @@ function Header() {
           <>
             <Link to="/login">Prijavi se</Link>
             <Link to="/register">Registruj se</Link>
+            <Link to="/cart">Korpa</Link>
           </>
         )}
       </div>
