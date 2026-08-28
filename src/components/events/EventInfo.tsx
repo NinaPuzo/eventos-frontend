@@ -1,6 +1,7 @@
 import type { Event } from "@shared/types/Event";
 import { useState } from "react";
 import Button from "../global/Button";
+import type { CartItem } from "@shared/types/CartItem";
 
 type EventInfoProps = {
   event: Event;
