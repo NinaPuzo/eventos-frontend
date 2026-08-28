@@ -1,29 +1,24 @@
 import type { Event } from "@shared/types/Event";
 import { useState } from "react";
 import Button from "../global/Button";
-import type { CartItem } from "@shared/types/CartItem";
+import type { CartItemType } from "@shared/types/CartItemType";
 
 type EventInfoProps = {
   event: Event;
-};
-
-type CartItem = {
-  eventId: string;
-  quantity: number;
 };
 
 function EventInfo({ event }: EventInfoProps) {
   const [quantity, setQuantity] = useState(0);
 
   function handleAddToCart() {
-    const cartItem: CartItem = {
+    const cartItem: CartItemType = {
       eventId: event.id,
       quantity,
     };
 
     const storedCart = localStorage.getItem("cart");
 
-    const cart: CartItem[] = storedCart ? JSON.parse(storedCart) : [];
+    const cart: CartItemType[] = storedCart ? JSON.parse(storedCart) : [];
 
     const existingItem = cart.find((item) => item.eventId === cartItem.eventId);
 
