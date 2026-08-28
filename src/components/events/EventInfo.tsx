@@ -7,16 +7,33 @@ type EventInfoProps = {
   event: Event;
 };
 
+type CartItem = {
+  eventId: string;
+  quantity: number;
+};
+
 function EventInfo({ event }: EventInfoProps) {
   const [quantity, setQuantity] = useState(0);
 
   function handleAddToCart() {
-    const cartItem = {
+    const cartItem: CartItem = {
       eventId: event.id,
-      quantity: quantity,
+      quantity,
     };
 
-    localStorage.setItem("cart", JSON.stringify(cartItem));
+    const storedCart = localStorage.getItem("cart");
+
+    const cart: CartItem[] = storedCart ? JSON.parse(storedCart) : [];
+
+    const existingItem = cart.find((item) => item.eventId === cartItem.eventId);
+
+    if (existingItem) {
+      existingItem.quantity += cartItem.quantity;
+    } else {
+      cart.push(cartItem);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
   }
 
   return (

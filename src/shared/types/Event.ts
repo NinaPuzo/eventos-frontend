@@ -1,5 +1,5 @@
 export type Event = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   category: "Koncert" | "Sport" | "Festival";
