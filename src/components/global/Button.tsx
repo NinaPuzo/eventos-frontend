@@ -7,9 +7,9 @@ type ButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-function Button({ type, className, label }: ButtonProps) {
+function Button({ type, className, label, onClick }: ButtonProps) {
   return (
-    <button type={type} className={className}>
+    <button type={type} onClick={onClick} className={className}>
       {label}
     </button>
   );

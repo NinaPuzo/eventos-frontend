@@ -10,9 +10,9 @@ export const ApiClient = axios.create({
   withCredentials: true,
 });
 
-let currentAccessToken: string | null = localStorage.getItem("accessToken");
-
 ApiClient.interceptors.request.use((config) => {
+  let currentAccessToken: string | null = localStorage.getItem("accessToken");
+
   if (currentAccessToken) {
     config.headers.Authorization = `Bearer ${currentAccessToken}`;
   }

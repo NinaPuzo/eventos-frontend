@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/global/Button";
 import AuthContext from "../context/AuthContext";
 import { AuthStatus } from "../shared/constants/AuthStatus";
+import { getUser } from "../api/userService";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -27,6 +28,13 @@ function LoginPage() {
 
     if (authStatus === AuthStatus.AUTHORIZED) {
       // pozovi get user
+      const user = await getUser();
+
+      setCurrentUser(user);
+
+      console.log(user);
+      navigate("/");
+
       console.log("Uspeo sam");
     } else if (authStatus === AuthStatus.UNAUTHORIZED) {
       setError("Pogresan e-mail ili lozinka.");
