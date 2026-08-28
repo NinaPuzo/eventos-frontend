@@ -17,6 +17,9 @@ function Header() {
   function handleLogout() {
     setCurrentUser(null);
 
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
     navigate("/");
   }
 

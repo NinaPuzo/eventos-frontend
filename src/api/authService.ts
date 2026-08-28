@@ -13,15 +13,9 @@ export async function login(credentials: LoginRequest): Promise<string> {
     );
 
     if (response.data) {
-      localStorage.setItem(
-        "accessToken",
-        JSON.stringify(response.data.accessToken),
-      );
+      localStorage.setItem("accessToken", response.data.accessToken);
 
-      localStorage.setItem(
-        "refreshToken",
-        JSON.stringify(response.data.refreshToken),
-      );
+      localStorage.setItem("refreshToken", response.data.refreshToken);
 
       return AuthStatus.AUTHORIZED;
     } else {
