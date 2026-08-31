@@ -1,12 +1,14 @@
-import { events } from "../data/events";
 import type { Event } from "../shared/types/Event";
+import { ApiClient } from "./apiClient";
 
-export function getEvents(): Promise<Event[]> {
-  return Promise.resolve(events);
+export async function getEvents(): Promise<Event[]> {
+  const response = await ApiClient.get<Event[]>("/api/events");
+
+  return response.data;
 }
 
-export function getEventsById(id: number): Promise<Event | undefined> {
-  const event = events.find((event) => event.id === id);
+export async function getEventsById(id: string): Promise<Event | undefined> {
+  const response = await ApiClient.get(`/api/events/${id}`);
 
-  return Promise.resolve(event);
+  return response.data;
 }

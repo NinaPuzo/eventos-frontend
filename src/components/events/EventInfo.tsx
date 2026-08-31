@@ -1,55 +1,57 @@
 import type { Event } from "@shared/types/Event";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Button from "../global/Button";
+import { CartContext } from "../../context/CartProvider";
 
 type EventInfoProps = {
   event: Event;
 };
 
-type CartItem = {
-  eventId: string;
-  quantity: number;
-};
-
 function EventInfo({ event }: EventInfoProps) {
   const [quantity, setQuantity] = useState(0);
+  const cartContext = useContext(CartContext);
+  const date = new Date(event.startTime);
+
+  if (!cartContext) {
+    throw new Error("EventInfo mora biti unutar CartProvider-a");
+  }
+
+  const { addToCart } = cartContext;
 
   function handleAddToCart() {
-    const cartItem: CartItem = {
-      eventId: event.id,
-      quantity,
-    };
-
-    const storedCart = localStorage.getItem("cart");
-
-    const cart: CartItem[] = storedCart ? JSON.parse(storedCart) : [];
-
-    const existingItem = cart.find((item) => item.eventId === cartItem.eventId);
-
-    if (existingItem) {
-      existingItem.quantity += cartItem.quantity;
-    } else {
-      cart.push(cartItem);
+    if (quantity === 0) {
+      return;
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+    addToCart(event.id, quantity);
+    setQuantity(0);
   }
 
   return (
     <div className="flex flex-col w-[65%]  gap-5">
-      <h1 className="text-2xl font-bold">{event.name}</h1>
+      <h1 className="text-2xl font-bold">{event.eventName}</h1>
 
       <div className="flex flex-col ">
-        <p className="text-lg">Datum: {event.date}</p>
-        <p className="text-lg">Vreme: {event.time}</p>
-        <p className="text-lg">Cena ulaznice: {event.price},00 RSD</p>
+        <p className="text-lg">Datum: {date.toLocaleDateString("sr-RS")}</p>
+        <p className="text-lg">
+          Vreme:{" "}
+          {date.toLocaleTimeString("sr-RS", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </p>
+        <p className="text-lg">Cena ulaznice: {event.ticketCost},00 RSD</p>
       </div>
 
       <div className="flex flex-row justify-between w-full border-t pt-6">
         <p className="text-lg">Količina</p>
         <div className=" flex flex-row w-[25%] justify-between items-center">
           <button
-            onClick={() => setQuantity(quantity - 1)}
+            onClick={() => {
+              if (quantity > 0) {
+                setQuantity(quantity - 1);
+              }
+            }}
             className="flex cursor-pointer bg-mauve-300 px-4 text-2xl items-center justify-center "
           >
             -

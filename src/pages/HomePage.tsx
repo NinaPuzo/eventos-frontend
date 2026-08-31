@@ -1,7 +1,20 @@
+import { useEffect, useState } from "react";
 import EventCard from "../components/events/EventCard";
-import { events } from "../data/events";
+import { getEvents } from "../api/eventsService";
+import type { Event } from "@shared/types/Event";
 
 function HomePage() {
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    async function loadEvents() {
+      const receivedEvents = await getEvents();
+      setEvents(receivedEvents);
+    }
+
+    loadEvents();
+  }, []);
+
   return (
     <div>
       <h1>Dogadjaji</h1>

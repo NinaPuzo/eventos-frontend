@@ -13,6 +13,7 @@ import EventPage from "./pages/EventPage";
 import CartPage from "./pages/CartPage";
 import { getUser } from "./api/userService";
 import AuthContext from "./context/AuthContext";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   const [userRoleId, setUserRoleId] = useState("1");
@@ -24,7 +25,10 @@ function App() {
       const user = await getUser();
       authContext?.setCurrentUser(user);
     }
-    getCurrentUser();
+
+    if (localStorage.getItem("accessToken")) {
+      getCurrentUser();
+    }
   }, []);
 
   return (
@@ -39,6 +43,7 @@ function App() {
           <Route path="/events" element={<EventPage />} />
           <Route path="/event/:id" element={<EventDetailsPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route
             path="/admin"
             element={
