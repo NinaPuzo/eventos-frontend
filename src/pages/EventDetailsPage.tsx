@@ -10,7 +10,9 @@ function EventDetailsPage() {
 
   useEffect(() => {
     async function loadEvent() {
-      const receivedEvent = await getEventsById(Number(id));
+      if (!id) return;
+
+      const receivedEvent = await getEventsById(id);
 
       setEvent(receivedEvent);
     }
