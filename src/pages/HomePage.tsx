@@ -17,7 +17,7 @@ function HomePage() {
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-5 p-20 place-items-center">
+      <div className="grid grid-cols-2 gap-5 py-20 place-items-center">
         {events.map((events) => (
           <EventCard key={events.id} event={events} />
         ))}

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { Event } from "@shared/types/Event";
 import { getEvents } from "../api/eventsService";
 import CartContext from "../context/CartContext";
+import CartItem from "../components/cart/CartItem";
 
 function CartPage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -38,61 +39,53 @@ function CartPage() {
   }, 0);
 
   return (
-    <div>
-      <h1>Pregled korpe</h1>
-      <br />
-      {cart.map((item) => {
-        const event = events.find((event) => event.id === item.eventId);
+    <div className="flex flex-row w-full gap-10 px-60 py-12">
+      <div className="w-full max-w-[845px]">
+        <h1 className="mb-6 text-white text-2xl">Pregled korpe</h1>
+        <br />
 
-        if (!event) {
-          return null;
-        }
+        <div className="flex flex-col gap-5">
+          {cart.map((item) => {
+            const event = events.find((event) => event.id === item.eventId);
 
-        return (
-          <div key={item.eventId}>
-            <h2>{event.eventName}</h2>
-            <p>Cena: {event.ticketCost} RSD</p>
-            <p>Količina: {item.quantity}</p>
-            <div className="flex items-center gap-4 p-2">
-              <Button
-                type="button"
-                label="-"
-                onClick={() => {
+            if (!event) {
+              return null;
+            }
+
+            return (
+              <CartItem
+                key={item.eventId}
+                event={event}
+                quantity={item.quantity}
+                onIncrease={() => addToCart(item.eventId, 1)}
+                onDecrease={() => {
                   if (item.quantity > 1) {
                     addToCart(item.eventId, -1);
                   }
                 }}
-                className="cursor-pointer bg-mauve-300 px-4 py-1 text-l hover:bg-mauve-400"
+                onRemove={() => removeFromCart(item.eventId)}
               />
+            );
+          })}
+        </div>
+      </div>
 
-              <p>{item.quantity}</p>
+      <div className="flex flex-col mt-20 w-1/3 rounded-xl bg-[#303030] p-8 text-white gap-6">
+        <div className="border-b pb-3 border-[#5D5D5D]">
+          <h1 className="text-[#B9B9B9] text-center"> Pregled porudžbine</h1>
+        </div>
+        <div className="flex flex-row justify-between">
+          <h1 className="text-white font-semibold">UKUPNO:</h1>
+          <p>{totalPrice},00 RSD</p>
+        </div>
 
-              <Button
-                type="button"
-                label="+"
-                onClick={() => addToCart(item.eventId, 1)}
-                className="cursor-pointer bg-mauve-300 px-4 py-1 text-l hover:bg-mauve-400"
-              />
-            </div>
-            <Button
-              type="button"
-              label="Ukloni iz korpe"
-              onClick={() => removeFromCart(item.eventId)}
-              className="w-fit cursor-pointer border bg-mauve-300 px-4 py-1 text-l hover:bg-mauve-400"
-            />
-            <br />
-          </div>
-        );
-      })}
-
-      <h1>Ukupna cena: {totalPrice}</h1>
-
-      <Button
-        type="button"
-        label="Nastavi na plaćanje"
-        onClick={() => navigate("/checkout")}
-        className="w-fit cursor-pointer border bg-mauve-300 px-4 py-1 text-l hover:bg-mauve-400"
-      />
+        <Button
+          type="button"
+          label="Nastavi na plaćanje"
+          onClick={() => navigate("/checkout")}
+          className="cursor-pointer bg-[#E98400] py-3 rounded-xl px-4 py-1 text-l w-full"
+        />
+      </div>
     </div>
   );
 }
