@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../context/CartProvider";
 import Button from "../components/global/Button";
 import { useNavigate } from "react-router-dom";
 import type { Event } from "@shared/types/Event";
 import { getEvents } from "../api/eventsService";
+import CartContext from "../context/CartContext";
 
 function CartPage() {
   const [events, setEvents] = useState<Event[]>([]);
