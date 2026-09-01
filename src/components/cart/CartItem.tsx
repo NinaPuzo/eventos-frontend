@@ -16,7 +16,7 @@ function CartItem({
   onDecrease,
   onRemove,
 }: CartItemProps) {
-  const itemTotal = event.price * quantity;
+  const itemTotal = event.ticketCost * quantity;
 
   return <div></div>;
 }

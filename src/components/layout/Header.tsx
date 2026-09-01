@@ -33,7 +33,7 @@ function Header() {
   }
 
   return (
-    <header className="flex w-full h-16 px-48 text-white items-center justify-between  bg-[#232323]">
+    <header className="flex w-full h-16 px-60 text-white items-center justify-between  bg-[#232323]">
       <div className="flex items-center justify-center gap-10">
         <Link to="/">
           <img src={logo} alt="Logo" />

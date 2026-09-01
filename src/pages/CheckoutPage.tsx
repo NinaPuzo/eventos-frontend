@@ -1,9 +1,9 @@
 import { useContext, useState, type ChangeEventHandler } from "react";
 import Input from "../components/global/Input";
 import Button from "../components/global/Button";
-import { CartContext } from "../context/CartProvider";
 import { createOrder, type CreateOrderRequest } from "../api/orderService";
 import { useNavigate } from "react-router-dom";
+import CartContext from "../context/CartContext";
 
 function CheckoutPage() {
   const [firstName, setFirstName] = useState("");

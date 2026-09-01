@@ -21,18 +21,18 @@ function EventDetailsPage() {
   }, [id]);
 
   return (
-    <div className="flex flex-col  w-full py-10 ">
-      <div className="flex flex-row mx-auto w-[90%] bg-mauve-100 p-10 gap-10 min-h-[400px]">
-        <div className="flex w-[35%] justify-center border bg-mauve-200">
+    <div className="flex flex-col  w-full py-[140px] pl-[155px] pr-[155px]">
+      <div className="flex flex-row mx-auto w-[90%] py-12 px-15 gap-30 min-h-[400px] rounded-2xl border-white/10 shadow-2xl text-white bg-gradient-to-br from-[#303030] via-[#242424] to-[#171717]">
+        <div className="flex w-[35%] justify-center bg-[#303030] rounded-lg">
           <img alt="Slika dogadjaja"></img>
         </div>
 
         {event && <EventInfo event={event} />}
       </div>
 
-      <div className="mx-auto mt-10 w-[90%] border p-10">
-        <h2 className="text-xl font-semibold">Opis dogadjaja</h2>
-        <p>{event?.description}</p>
+      <div className="flex flex-col gap-3 mx-auto mt-10 w-[90%] p-10 bg-[#202020] rounded-lg">
+        <h2 className="text-xl font-semibold text-white">Opis dogadjaja</h2>
+        <p className="text-[#8B8B8B]">{event?.description}</p>
       </div>
     </div>
   );
