@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function NavBar() {
   return (
-    <nav className="flex flex-row gap-10 pr-20 pl-20">
+    <nav className="flex flex-row gap-10 ">
       <Link to="/">Pocetna strana</Link>
       <Link to="/events?category=sport">Sport</Link>
       <Link to="/events?category=koncert">Koncerti</Link>
