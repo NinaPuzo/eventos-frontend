@@ -2,6 +2,7 @@ import type { Event } from "@shared/types/Event";
 import { useState, useContext } from "react";
 import Button from "../global/Button";
 import CartContext from "../../context/CartContext";
+import { formatEventDate } from "../../shared/functions/formatEventDate";
 
 type EventInfoProps = {
   event: Event;
@@ -10,7 +11,7 @@ type EventInfoProps = {
 function EventInfo({ event }: EventInfoProps) {
   const [quantity, setQuantity] = useState(0);
   const cartContext = useContext(CartContext);
-  const date = new Date(event.startTime);
+  const { date, time } = formatEventDate(event.startTime);
 
   if (!cartContext) {
     throw new Error("EventInfo mora biti unutar CartProvider-a");
@@ -32,14 +33,8 @@ function EventInfo({ event }: EventInfoProps) {
       <h1 className="text-5xl font-bold">{event.eventName}</h1>
 
       <div className="flex flex-col ">
-        <p className="text-[22px]">Datum: {date.toLocaleDateString("sr-RS")}</p>
-        <p className="text-[22px]">
-          Vreme:{" "}
-          {date.toLocaleTimeString("sr-RS", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </p>
+        <p className="text-[22px]">Datum: {date}</p>
+        <p className="text-[22px]">Vreme: {time}</p>
       </div>
 
       <div className="flex flex-col justify-between w-full border-t pt-6">

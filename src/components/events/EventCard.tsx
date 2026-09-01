@@ -1,21 +1,13 @@
+import { formatEventDate } from "../../shared/functions/formatEventDate";
 import type { Event } from "@shared/types/Event";
 import { Link } from "react-router-dom";
+
 type EventCardProps = {
   event: Event;
 };
 
 function EventCard({ event }: EventCardProps) {
-  const startDate = new Date(event.startTime);
-  const date = startDate.toLocaleDateString("sr-Latn-RS", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-  });
-  const time = startDate.toLocaleTimeString("sr-RS", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
+  const { date, time } = formatEventDate(event.startTime);
   return (
     <div className="flex flex-col w-[216px]">
       <Link to={`/event/${event.id}`}>
