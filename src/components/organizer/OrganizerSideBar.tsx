@@ -21,7 +21,7 @@ function OrganizerSideBar() {
     }`;
 
   return (
-    <aside className="w-full border-b border-gray-600 p-4 md:min-h-screen md:w-64 md:border-r md:border-b-0  shadow-[0_6px_12px_-8px_rgba(0,0,0,0.7)] md:shadow-[8px_0_16px_-8px_rgba(0,0,0,0.7)]">
+    <aside className="w-full border-b text-lg border-gray-600 p-4 md:min-h-screen md:w-86 md:border-r md:border-b-0  shadow-[0_6px_12px_-8px_rgba(0,0,0,0.7)] md:shadow-[8px_0_16px_-8px_rgba(0,0,0,0.7)]">
       <div className="mb-6 flex items-center gap-3 border-b border-gray-700 pb-5">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-mauve-300 text-lg font-semibold text-white">
           {initial}
