@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { getCategories } from "../../api/categoryService";
+import { getAvailableControllers } from "../../api/userService";
 import Input from "../../components/global/Input";
 import Select from "../../components/global/Select";
-import type { Category } from "@shared/types/Category";
-import { getCategories } from "../../api/categoryService";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DataTable, { type TableColumn } from "react-data-table-component";
+import Button from "../../components/global/Button";
 import type { User } from "@shared/types/User";
+import type { Category } from "@shared/types/Category";
+import "react-datepicker/dist/react-datepicker.css";
+import AuthContext from "../../context/AuthContext";
+import type { CreateEventRequest } from "@shared/types/CreateEventRequest";
+import { createEvent } from "../../api/eventsService";
 
 function CreateEventPage() {
   const [eventName, setEventName] = useState("");
@@ -21,6 +27,44 @@ function CreateEventPage() {
   const [availableControllers, setAvailableControllers] = useState<User[]>([]);
   const [controllerIds, setControllerIds] = useState<string[]>([]);
 
+  const [controllerSearch, setControllerSearch] = useState("");
+
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("CreateEventPage mora biti unutar AuthProvider-a.");
+  }
+
+  const { currentUser } = authContext;
+
+  const controllerColumns: TableColumn<User>[] = [
+    {
+      name: "Ime",
+      selector: (controller) => controller.firstName,
+      sortable: true,
+    },
+    {
+      name: "Prezime",
+      selector: (controller) => controller.lastName,
+      sortable: true,
+    },
+
+    {
+      name: "Email",
+      selector: (controller) => controller.email,
+    },
+  ];
+
+  const filterController = availableControllers.filter((controller) => {
+    const searchValue = controllerSearch.toLowerCase();
+
+    return (
+      controller.firstName.toLowerCase().includes(searchValue) ||
+      controller.lastName.toLowerCase().includes(searchValue) ||
+      controller.email.toLowerCase().includes(searchValue)
+    );
+  });
+
   useEffect(() => {
     async function loadCategories() {
       const receivedCategories = await getCategories();
@@ -30,12 +74,67 @@ function CreateEventPage() {
     loadCategories();
   }, []);
 
-  function handleChange(controllerId: string) {
-    setControllerIds((controllerIds) =>
-      controllerIds.includes(controllerId)
-        ? controllerIds.filter((id) => id !== controllerId)
-        : [...controllerIds, controllerId],
+  function handleSelectedRows(selection: { selectedRows: User[] }) {
+    const selectedControllers = selection.selectedRows;
+
+    const selectedControllersIds = selectedControllers.map(
+      (controller) => controller.id,
     );
+
+    setControllerIds(selectedControllersIds);
+  }
+  {
+    /* funkcija kada bude povezano sa apijem */
+  }
+  /*async function handleAvailableControllers() {
+    if (!startTime || !endTime) {
+      alert("Prvo unesite datum i vreme početka i završetka događaja.");
+      return;
+    }
+
+    try {
+      const controllers = await getAvailableControllers(startTime, endTime);
+      setAvailableControllers(controllers);
+    } catch (error) {
+      console.error("Greška pri učitavanju kontrolora:", error);
+    }
+  }*/
+
+  async function handleAvailableControllers() {
+    if (!startTime) {
+      return;
+    }
+
+    const controllers = await getAvailableControllers(startTime);
+    setAvailableControllers(controllers);
+  }
+
+  async function handleSubmit() {
+    if (!currentUser) {
+      alert("Morate biti prijavljeni da biste kreirali događaj.");
+      return;
+    }
+
+    const newEvent: CreateEventRequest = {
+      userId: currentUser.id,
+      categoryId,
+      imagePath,
+      eventName,
+      description,
+      locationName,
+      capacity,
+      ticketCost,
+      isCanceled: false,
+      startTime: new Date(startTime).toISOString(),
+      endTime: new Date(endTime).toISOString(),
+    };
+
+    try {
+      await createEvent(newEvent);
+      alert("Događaj je uspešno kreiran!");
+    } catch (error) {
+      console.error("Greska");
+    }
   }
 
   return (
@@ -142,19 +241,38 @@ function CreateEventPage() {
         />
 
         <div className="col-span-2 flex flex-col gap-2">
-          <p className="text-white">Izaberi kontrolore</p>
+          <label htmlFor="controllerSearch" className="text-white">
+            Izaberi kontrolore
+          </label>
 
-          {availableControllers.map((controller) => (
-            <label key={controller.id} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={controllerIds.includes(controller.id)}
-                onChange={() => handleChange(controller.id)}
-              />
-              {controller.firstName} {controller.lastName}
-            </label>
-          ))}
+          <input
+            id="controllerSearch"
+            type="text"
+            value={controllerSearch}
+            onChange={(event) => setControllerSearch(event.target.value)}
+            placeholder="Pretraga po imenu, prezimenu ili emailu"
+            className="rounded-md border border-gray-500 bg-[#232323] px-4 py-3 text-white outline-none focus:border-mauve-300"
+          />
+
+          <DataTable
+            columns={controllerColumns}
+            data={filterController}
+            selectableRows
+            selectableRowSelected={(controller) =>
+              controllerIds.includes(controller.id)
+            }
+            onSelectedRowsChange={handleSelectedRows}
+            noDataComponent="Nema dostupnih kontrolora"
+          />
         </div>
+
+        <Button
+          type="button"
+          label="Prikaži dostupne kontrolore"
+          onClick={handleAvailableControllers}
+        />
+
+        <Button type="submit" label="Kreiraj događaj" onClick={handleSubmit} />
       </div>
     </div>
   );
