@@ -5,6 +5,7 @@ import type { Category } from "@shared/types/Category";
 import { getCategories } from "../../api/categoryService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import type { User } from "@shared/types/User";
 
 function CreateEventPage() {
   const [eventName, setEventName] = useState("");
@@ -17,6 +18,8 @@ function CreateEventPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [imagePath, setImagePath] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [availableControllers, setAvailableControllers] = useState<User[]>([]);
+  const [controllerIds, setControllerIds] = useState<string[]>([]);
 
   useEffect(() => {
     async function loadCategories() {
@@ -26,6 +29,14 @@ function CreateEventPage() {
 
     loadCategories();
   }, []);
+
+  function handleChange(controllerId: string) {
+    setControllerIds((controllerIds) =>
+      controllerIds.includes(controllerId)
+        ? controllerIds.filter((id) => id !== controllerId)
+        : [...controllerIds, controllerId],
+    );
+  }
 
   return (
     <div className="flex flex-col border-[2px] rounded-[54px] border-[#B0B0B0] p-14 h-full">
@@ -69,14 +80,6 @@ function CreateEventPage() {
           className="col-span-2"
         />
 
-        <Input
-          id="eventLocation"
-          type="text"
-          value={locationName}
-          onChange={(event) => setLocationName(event.target.value)}
-          label="Lokacija"
-          className="col-span-2"
-        />
         <div className="col-span-2">
           <div className="flex flex-row gap-3">
             <div className="flex flex-col gap-3">
@@ -109,6 +112,48 @@ function CreateEventPage() {
               />
             </div>
           </div>
+        </div>
+
+        <Input
+          id="eventCapacity"
+          type="number"
+          value={capacity}
+          onChange={(event) => setCapacity(Number(event.target.value))}
+          label="Maksimalni kapacitet"
+          className="col-span-2"
+        />
+
+        <Input
+          id="ticketCost"
+          type="number"
+          value={ticketCost}
+          onChange={(event) => setTicketCost(Number(event.target.value))}
+          label="Cena"
+          className="col-span-2"
+        />
+
+        <Input
+          id="imagePath"
+          type="text"
+          value={imagePath}
+          onChange={(event) => setImagePath(event.target.value)}
+          label="Fotografija događaja"
+          className="col-span-2"
+        />
+
+        <div className="col-span-2 flex flex-col gap-2">
+          <p className="text-white">Izaberi kontrolore</p>
+
+          {availableControllers.map((controller) => (
+            <label key={controller.id} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={controllerIds.includes(controller.id)}
+                onChange={() => handleChange(controller.id)}
+              />
+              {controller.firstName} {controller.lastName}
+            </label>
+          ))}
         </div>
       </div>
     </div>

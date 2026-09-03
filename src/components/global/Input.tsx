@@ -3,10 +3,11 @@ import type { ChangeEventHandler } from "react";
 type InputProps = {
   label: string;
   id: string;
-  type: string;
-  value: string;
+  type: React.HTMLInputTypeAttribute;
+  value?: string | number;
   onChange: ChangeEventHandler<HTMLInputElement>;
   className?: string;
+  accept?: string;
 };
 
 function Input({ label, id, type, value, onChange, className }: InputProps) {
