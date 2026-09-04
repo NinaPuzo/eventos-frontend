@@ -17,8 +17,8 @@ function CreateEventPage() {
   const [eventName, setEventName] = useState("");
   const [description, setDescription] = useState("");
   const [locationName, setLocationName] = useState("");
-  const [capacity, setCapacity] = useState(0);
-  const [ticketCost, setTicketCost] = useState(0);
+  const [capacity, setCapacity] = useState("");
+  const [ticketCost, setTicketCost] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
@@ -74,6 +74,13 @@ function CreateEventPage() {
     loadCategories();
   }, []);
 
+  useEffect(() => {
+    if (!startTime || !endTime) {
+      setAvailableControllers([]);
+      setControllerIds([]);
+    }
+  }, [startTime, endTime]);
+
   function handleSelectedRows(selection: { selectedRows: User[] }) {
     const selectedControllers = selection.selectedRows;
 
@@ -102,6 +109,8 @@ function CreateEventPage() {
 
   async function handleAvailableControllers() {
     if (!startTime) {
+      setAvailableControllers([]);
+      setControllerIds([]);
       return;
     }
 
@@ -122,8 +131,8 @@ function CreateEventPage() {
       eventName,
       description,
       locationName,
-      capacity,
-      ticketCost,
+      capacity: Number(capacity),
+      ticketCost: Number(capacity),
       isCanceled: false,
       startTime: new Date(startTime).toISOString(),
       endTime: new Date(endTime).toISOString(),
@@ -138,28 +147,11 @@ function CreateEventPage() {
   }
 
   return (
-    <div className="h-full rounded-[54px] border-2 border-[#B0B0B0] p-14 text-[#333333]">
+    <div className="h-full rounded-[10px] p-14 text-[#333333] border border-[#E5E5E5] ">
       <h1 className="mb-8 text-[36px] font-semibold">Kreiraj događaj</h1>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {/* LEVA STRANA */}
         <div className="flex flex-col gap-4">
-          <Input
-            id="eventName"
-            type="text"
-            value={eventName}
-            onChange={(event) => setEventName(event.target.value)}
-            label="Naziv događaja"
-          />
-
-          <Input
-            id="eventDescription"
-            type="text"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            label="Opis događaja"
-          />
-
           <Select
             label="Kategorija"
             id="category"
@@ -169,6 +161,25 @@ function CreateEventPage() {
               value: category.id,
               label: category.categoryName,
             }))}
+            className="w-[560px] h-[48px] rounded-[10px] px-5 text-[16px] text-[#A5A5A5]"
+          />
+
+          <Input
+            id="eventName"
+            type="text"
+            value={eventName}
+            onChange={(event) => setEventName(event.target.value)}
+            label="Naziv događaja"
+            className="border rounded-[10px] h-[48px] w-[560px] px-5 pb-1 text-[16px] text-[#A5A5A5] focus:border-transparent focus:outline-none focus:ring-0"
+            autoComplete="off"
+          />
+
+          <textarea
+            id="eventDescription"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            placeholder="Opis"
+            className="border rounded-[10px]  w-[560px] px-5 text-[16px] text-[#A5A5A5]"
           />
 
           <Input
@@ -177,22 +188,28 @@ function CreateEventPage() {
             value={locationName}
             onChange={(event) => setLocationName(event.target.value)}
             label="Lokacija"
+            className="border rounded-[10px] h-[48px] w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            autoComplete="off"
           />
 
           <Input
             id="eventCapacity"
             type="number"
             value={capacity}
-            onChange={(event) => setCapacity(Number(event.target.value))}
+            onChange={(event) => setCapacity(event.target.value)}
             label="Maksimalni kapacitet"
+            className="border rounded-[10px] h-[48px] w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            autoComplete="off"
           />
 
           <Input
             id="ticketCost"
             type="number"
             value={ticketCost}
-            onChange={(event) => setTicketCost(Number(event.target.value))}
+            onChange={(event) => setTicketCost(event.target.value)}
             label="Cena"
+            className="border rounded-[10px] h-[48px] w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            autoComplete="off"
           />
 
           <Input
@@ -201,10 +218,11 @@ function CreateEventPage() {
             value={imagePath}
             onChange={(event) => setImagePath(event.target.value)}
             label="Fotografija događaja"
+            className="border rounded-[10px] h-[48px] w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            autoComplete="off"
           />
         </div>
 
-        {/* DESNA STRANA */}
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex flex-1 flex-col gap-2">
@@ -246,7 +264,7 @@ function CreateEventPage() {
             type="button"
             label="Prikaži dostupne kontrolore"
             onClick={handleAvailableControllers}
-            className="flex cursor-pointeritems-center justify-center rounded-xl border "
+            className="flex cursor-pointer border items-center justify-center h-[48px] rounded-[10px] "
           />
 
           <div className="flex flex-col gap-2">
@@ -275,7 +293,12 @@ function CreateEventPage() {
       </div>
 
       <div className="mt-8 flex justify-end">
-        <Button type="button" label="Kreiraj događaj" onClick={handleSubmit} />
+        <Button
+          type="button"
+          label="Kreiraj događaj"
+          onClick={handleSubmit}
+          className=" w-[590px] flex cursor-pointer bg-[#E98400] items-center justify-center h-[48px] rounded-[10px] font-semibold text-xl text-white "
+        />
       </div>
     </div>
   );

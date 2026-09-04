@@ -24,7 +24,7 @@ function Select({
 }: SelectProps) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-sm text-[#ADADAD]">
+      <label htmlFor={id} className="text-sm text-[#A5A5A5]">
         {label}
       </label>
 
@@ -33,12 +33,16 @@ function Select({
         value={value}
         onChange={onChange}
         required={required}
-        className={`h-10 rounded-md border border-[#555555] bg-transparent px-3 text-white outline-none ${className}`}
+        className={`h-10 rounded-[10px] text-[16px] border border-[#555555] bg-transparent text-[#A5A5A5] outline-none ${className}`}
       >
         <option value="">Izaberi opciju</option>
 
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            className="text-black "
+          >
             {option.label}
           </option>
         ))}
