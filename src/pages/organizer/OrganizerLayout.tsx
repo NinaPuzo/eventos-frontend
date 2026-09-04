@@ -11,10 +11,10 @@ function OrganizerLayout() {
       </main>
     </div>*/
 
-    <div className="flex min-h-screen flex-col md:flex-row text-white">
+    <div className="flex min-h-screen flex-col md:flex-row bg-[#F4F4F4]">
       <OrganizerSideBar />
 
-      <main className="min-w-0 flex-1 px-30 py-20">
+      <main className="min-w-0 flex-1 px-30 py-20 bg-white">
         <Outlet />
       </main>
     </div>

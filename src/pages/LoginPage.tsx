@@ -13,6 +13,8 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
+  const organizerRoleId = "22FEA888-84E5-49C5-9953-9B94FAA386A2";
+
   const authContext = useContext(AuthContext);
 
   if (!authContext) {
@@ -32,8 +34,12 @@ function LoginPage() {
 
       setCurrentUser(user);
 
+      if (user.roles.includes("organisator")) {
+        navigate("/organizer/events");
+      } else {
+        navigate("/");
+      }
       console.log(user);
-      navigate("/");
 
       console.log("Uspeo sam");
     } else if (authStatus === AuthStatus.UNAUTHORIZED) {

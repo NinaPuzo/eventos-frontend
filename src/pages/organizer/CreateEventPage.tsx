@@ -138,50 +138,76 @@ function CreateEventPage() {
   }
 
   return (
-    <div className="flex flex-col border-[2px] rounded-[54px] border-[#B0B0B0] p-14 h-full">
-      <h1 className="text-[36px] font-semibold">Kreiraj događaj</h1>
-      <div className="grid grid-cols-2">
-        <Input
-          id="eventName"
-          type="text"
-          value={eventName}
-          onChange={(event) => setEventName(event.target.value)}
-          label="Naziv događaja"
-          className="col-span-2"
-        />
+    <div className="h-full rounded-[54px] border-2 border-[#B0B0B0] p-14 text-[#333333]">
+      <h1 className="mb-8 text-[36px] font-semibold">Kreiraj događaj</h1>
 
-        <Input
-          id="eventDescription"
-          type="text"
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-          label="Opis događaja"
-          className="col-span-2"
-        />
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        {/* LEVA STRANA */}
+        <div className="flex flex-col gap-4">
+          <Input
+            id="eventName"
+            type="text"
+            value={eventName}
+            onChange={(event) => setEventName(event.target.value)}
+            label="Naziv događaja"
+          />
 
-        <Select
-          label="Kategorija"
-          id="category"
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
-          options={categories.map((category) => ({
-            value: category.id,
-            label: category.categoryName,
-          }))}
-        />
+          <Input
+            id="eventDescription"
+            type="text"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            label="Opis događaja"
+          />
 
-        <Input
-          id="eventLocation"
-          type="text"
-          value={locationName}
-          onChange={(event) => setLocationName(event.target.value)}
-          label="Lokacija"
-          className="col-span-2"
-        />
+          <Select
+            label="Kategorija"
+            id="category"
+            value={categoryId}
+            onChange={(event) => setCategoryId(event.target.value)}
+            options={categories.map((category) => ({
+              value: category.id,
+              label: category.categoryName,
+            }))}
+          />
 
-        <div className="col-span-2">
-          <div className="flex flex-row gap-3">
-            <div className="flex flex-col gap-3">
+          <Input
+            id="eventLocation"
+            type="text"
+            value={locationName}
+            onChange={(event) => setLocationName(event.target.value)}
+            label="Lokacija"
+          />
+
+          <Input
+            id="eventCapacity"
+            type="number"
+            value={capacity}
+            onChange={(event) => setCapacity(Number(event.target.value))}
+            label="Maksimalni kapacitet"
+          />
+
+          <Input
+            id="ticketCost"
+            type="number"
+            value={ticketCost}
+            onChange={(event) => setTicketCost(Number(event.target.value))}
+            label="Cena"
+          />
+
+          <Input
+            id="imagePath"
+            type="text"
+            value={imagePath}
+            onChange={(event) => setImagePath(event.target.value)}
+            label="Fotografija događaja"
+          />
+        </div>
+
+        {/* DESNA STRANA */}
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-1 flex-col gap-2">
               <label htmlFor="startTime">Početak događaja</label>
 
               <DatePicker
@@ -193,10 +219,12 @@ function CreateEventPage() {
                 showTimeSelect
                 dateFormat="dd.MM.yyyy HH:mm"
                 placeholderText="Izaberi datum i vreme"
+                wrapperClassName="w-full"
+                className="w-full rounded-md border border-gray-300 px-4 py-3"
               />
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-1 flex-col gap-2">
               <label htmlFor="endTime">Kraj događaja</label>
 
               <DatePicker
@@ -208,71 +236,46 @@ function CreateEventPage() {
                 showTimeSelect
                 dateFormat="dd.MM.yyyy HH:mm"
                 placeholderText="Izaberi datum i vreme"
+                wrapperClassName="w-full"
+                className="w-full rounded-md border border-gray-300 px-4 py-3"
               />
             </div>
           </div>
-        </div>
 
-        <Input
-          id="eventCapacity"
-          type="number"
-          value={capacity}
-          onChange={(event) => setCapacity(Number(event.target.value))}
-          label="Maksimalni kapacitet"
-          className="col-span-2"
-        />
-
-        <Input
-          id="ticketCost"
-          type="number"
-          value={ticketCost}
-          onChange={(event) => setTicketCost(Number(event.target.value))}
-          label="Cena"
-          className="col-span-2"
-        />
-
-        <Input
-          id="imagePath"
-          type="text"
-          value={imagePath}
-          onChange={(event) => setImagePath(event.target.value)}
-          label="Fotografija događaja"
-          className="col-span-2"
-        />
-
-        <div className="col-span-2 flex flex-col gap-2">
-          <label htmlFor="controllerSearch" className="text-white">
-            Izaberi kontrolore
-          </label>
-
-          <input
-            id="controllerSearch"
-            type="text"
-            value={controllerSearch}
-            onChange={(event) => setControllerSearch(event.target.value)}
-            placeholder="Pretraga po imenu, prezimenu ili emailu"
-            className="rounded-md border border-gray-500 bg-[#232323] px-4 py-3 text-white outline-none focus:border-mauve-300"
+          <Button
+            type="button"
+            label="Prikaži dostupne kontrolore"
+            onClick={handleAvailableControllers}
+            className="flex cursor-pointeritems-center justify-center rounded-xl border "
           />
 
-          <DataTable
-            columns={controllerColumns}
-            data={filterController}
-            selectableRows
-            selectableRowSelected={(controller) =>
-              controllerIds.includes(controller.id)
-            }
-            onSelectedRowsChange={handleSelectedRows}
-            noDataComponent="Nema dostupnih kontrolora"
-          />
+          <div className="flex flex-col gap-2">
+            <label htmlFor="controllerSearch">Izaberi kontrolore</label>
+
+            <input
+              id="controllerSearch"
+              type="text"
+              value={controllerSearch}
+              onChange={(event) => setControllerSearch(event.target.value)}
+              placeholder="Pretraga kontrolora"
+              className="rounded-md border border-gray-300 bg-white px-4 py-3 text-[#333333] outline-none"
+            />
+          </div>
+
+          <div className="overflow-hidden rounded-md border border-gray-300">
+            <DataTable
+              columns={controllerColumns}
+              data={filterController}
+              selectableRows
+              onSelectedRowsChange={handleSelectedRows}
+              noDataComponent="Nema dostupnih kontrolora"
+            />
+          </div>
         </div>
+      </div>
 
-        <Button
-          type="button"
-          label="Prikaži dostupne kontrolore"
-          onClick={handleAvailableControllers}
-        />
-
-        <Button type="submit" label="Kreiraj događaj" onClick={handleSubmit} />
+      <div className="mt-8 flex justify-end">
+        <Button type="button" label="Kreiraj događaj" onClick={handleSubmit} />
       </div>
     </div>
   );
