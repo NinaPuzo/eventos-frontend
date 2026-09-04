@@ -1,3 +1,4 @@
+import type { CreateEventRequest } from "@shared/types/CreateEventRequest";
 import type { Event } from "../shared/types/Event";
 import { ApiClient } from "./apiClient";
 
@@ -11,4 +12,10 @@ export async function getEventsById(id: string): Promise<Event | undefined> {
   const response = await ApiClient.get(`/api/events/${id}`);
 
   return response.data;
+}
+
+export async function createEvent(
+  eventData: CreateEventRequest,
+): Promise<void> {
+  await ApiClient.post("/api/events", eventData);
 }

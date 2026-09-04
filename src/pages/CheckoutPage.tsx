@@ -44,12 +44,12 @@ function CheckoutPage() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center text-white gap-4 py-20">
       <h1>Plaćanje</h1>
 
-      <h2>Podaci kupca</h2>
+      <h2 className="text-xl">Podaci kupca</h2>
 
-      <div>
+      <div className="flex flex-col gap-3">
         <Input
           label="Ime"
           id="firstName"
@@ -81,7 +81,7 @@ function CheckoutPage() {
       <Button
         label="Potvrdi kupovinu"
         type="submit"
-        className="w-fit cursor-pointer border bg-mauve-300 px-4 py-1 text-l hover:bg-mauve-400"
+        className="w-fit cursor-pointer rounded-[10px] bg-[#E98400] px-4 py-2 text-l hover:bg-mauve-400"
         onClick={handleSubmitOrder}
       />
     </div>
