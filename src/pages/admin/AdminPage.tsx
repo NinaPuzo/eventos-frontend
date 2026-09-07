@@ -10,22 +10,26 @@ function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedRoleId, setSelectedRoleId] = useState("");
+  const [message, setMessage] = useState("");
 
   const filteredUsers = selectedRoleId
     ? users.filter((user) => user.roleId === selectedRoleId)
     : users;
 
-  async function handleRoleChange(userId: string, roleId: string) {
+  async function handleRoleChange(user: User, roleId: string) {
     try {
-      await updateUserRole(userId, roleId);
+      await updateUserRole(user, roleId);
 
       setUsers((currentUsers) =>
-        currentUsers.map((user) =>
-          user.id === userId ? { ...user, roleId } : user,
+        currentUsers.map((currentUser) =>
+          currentUser.id === user.id ? { ...currentUser, roleId } : currentUser,
         ),
       );
+
+      setMessage("Rola je uspešno promenjena.");
     } catch (error) {
       console.error("Greška pri promeni role korisnika.", error);
+      setMessage("Promena role nije uspela.");
     }
   }
 
@@ -47,14 +51,13 @@ function AdminPage() {
       cell: (user) => (
         <select
           value={user.roleId}
-          onChange={(event) => handleRoleChange(user.id, event.target.value)}
+          onChange={(event) => handleRoleChange(user, event.target.value)}
         >
-          {roles &&
-            roles.map((role) => (
-              <option key={role.id} value={role.id}>
-                {role.roleName}
-              </option>
-            ))}
+          {roles.map((role) => (
+            <option key={role.id} value={role.id}>
+              {role.roleName}
+            </option>
+          ))}
         </select>
       ),
     },
@@ -101,6 +104,8 @@ function AdminPage() {
             </option>
           ))}
       </select>
+
+      {message && <p>{message}</p>}
 
       <DataTable columns={columns} data={filteredUsers} />
     </div>

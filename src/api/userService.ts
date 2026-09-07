@@ -46,10 +46,13 @@ export async function getAllUsers(): Promise<User[]> {
 }
 
 export async function updateUserRole(
-  userId: string,
+  user: User,
   roleId: string,
 ): Promise<void> {
-  await ApiClient.put(`/api/users/${userId}/role`, {
+  await ApiClient.put(`/api/users/${user.id}`, {
+    email: user?.email,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
     roleId,
   });
 }
