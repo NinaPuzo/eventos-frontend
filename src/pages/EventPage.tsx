@@ -38,9 +38,8 @@ function EventPage() {
     </div>*/
 
     <div>
-      {events.map((event) => (
-        <EventCard key={event.id} event={event} />
-      ))}
+      {events &&
+        events.map((event) => <EventCard key={event.id} event={event} />)}
     </div>
   );
 }

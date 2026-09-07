@@ -55,14 +55,15 @@ function OrganizerEventsPage() {
         <p>Trenutno nemate kreiranih događaja.</p>
       ) : (
         <div className="flex flex-col gap-6">
-          {events.map((event) => (
-            <OrganizerEventCard
-              key={event.id}
-              event={event}
-              onViewSalesDetails={() => navigate("/organizer/events/sales")}
-              onEditEvent={() => navigate("/organizer/events/edit")}
-            />
-          ))}
+          {events &&
+            events.map((event) => (
+              <OrganizerEventCard
+                key={event.id}
+                event={event}
+                onViewSalesDetails={() => navigate("/organizer/events/sales")}
+                onEditEvent={() => navigate("/organizer/events/edit")}
+              />
+            ))}
         </div>
       )}
     </div>

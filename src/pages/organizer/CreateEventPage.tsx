@@ -157,10 +157,13 @@ function CreateEventPage() {
             id="category"
             value={categoryId}
             onChange={(event) => setCategoryId(event.target.value)}
-            options={categories.map((category) => ({
-              value: category.id,
-              label: category.categoryName,
-            }))}
+            options={
+              categories &&
+              categories.map((category) => ({
+                value: category.id,
+                label: category.categoryName,
+              }))
+            }
             className="w-[560px] h-[48px] rounded-[10px] px-5 text-[16px] text-[#A5A5A5]"
           />
 

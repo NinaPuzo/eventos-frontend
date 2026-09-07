@@ -18,9 +18,8 @@ function HomePage() {
   return (
     <div>
       <div className="grid grid-cols-2 gap-5 py-20 place-items-center">
-        {events.map((events) => (
-          <EventCard key={events.id} event={events} />
-        ))}
+        {events &&
+          events.map((events) => <EventCard key={events.id} event={events} />)}
       </div>
     </div>
   );
