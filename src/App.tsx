@@ -3,7 +3,8 @@ import "./App.css";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminPage from "./pages/AdminPage";
+import AdminPage from "./pages/admin/AdminPage";
+import AdminLayout from "./pages/admin/AdminLayout";
 import { useContext, useEffect, useState } from "react";
 import RegisterPage from "./pages/RegisterPage";
 import Header from "./components/layout/Header";
@@ -23,6 +24,7 @@ function App() {
   const location = useLocation();
 
   const isOrganizerPage = location.pathname.startsWith("/organizer");
+  const isAdminPage = location.pathname.startsWith("/admin");
 
   const [error, setError] = useState("");
 
@@ -46,10 +48,10 @@ function App() {
   return (
     <div
       className={`flex flex-col min-h-screen ${
-        isOrganizerPage ? "bg-[#232323]" : "bg-[#1A1A1A]"
+        isOrganizerPage || isAdminPage ? "bg-[#232323]" : "bg-[#1A1A1A]"
       }`}
     >
-      {!isOrganizerPage && <Header />}
+      {!isOrganizerPage && !isAdminPage && <Header />}
 
       <main className="flex-1">
         <Routes>
@@ -64,12 +66,16 @@ function App() {
             path="/admin"
             element={
               <ProtectedRoute
-                element={<AdminPage />}
+                element={<AdminLayout />}
                 allowedRoleIds={["3FF45A87-26B1-4D17-A18A-EC3A63EF9969"]}
                 userRoleId={currentUser?.roleId ?? ""}
               ></ProtectedRoute>
             }
-          />
+          >
+            <Route index element={<Navigate to="users" replace />} />
+            <Route path="users" element={<AdminPage />} />
+          </Route>
+
           {/* Vratiti ProtectedRoute kada backend počne da vraća roleId */}
           <Route path="/organizer" element={<OrganizerLayout />}>
             <Route index element={<Navigate to="events" replace />} />
@@ -79,7 +85,7 @@ function App() {
         </Routes>
       </main>
 
-      {!isOrganizerPage && <Footer />}
+      {!isOrganizerPage && !isAdminPage && <Footer />}
     </div>
   );
 }

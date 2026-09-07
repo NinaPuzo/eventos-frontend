@@ -38,3 +38,18 @@ export async function getAvailableControllers(
 
   return Promise.resolve(availableControllers);
 }
+
+export async function getAllUsers(): Promise<User[]> {
+  const response = await ApiClient.get<User[]>("/api/users");
+
+  return response.data;
+}
+
+export async function updateUserRole(
+  userId: string,
+  roleId: string,
+): Promise<void> {
+  await ApiClient.put(`/api/users/${userId}/role`, {
+    roleId,
+  });
+}
