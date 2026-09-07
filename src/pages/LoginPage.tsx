@@ -34,13 +34,13 @@ function LoginPage() {
 
       setCurrentUser(user);
 
-      if (user.roles.includes("organisator")) {
+      if (user.roleId === "216e50f0-b90c-428c-85f3-a35d2d3f2a5a") {
         navigate("/organizer/events");
       } else {
         navigate("/");
       }
 
-      if (user.roles.includes("admin")) {
+      if (user.roleId === "28a9697e-4b45-4e31-a17e-f598c9505e33") {
         navigate("/admin/users");
       } else {
         navigate("/");

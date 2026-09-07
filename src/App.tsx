@@ -67,8 +67,8 @@ function App() {
             element={
               <ProtectedRoute
                 element={<AdminLayout />}
-                allowedRoles={["admin"]}
-                userRoles={currentUser?.roles ?? []}
+                allowedRoleIds={["28a9697e-4b45-4e31-a17e-f598c9505e33"]}
+                userRoleId={currentUser?.roleId ?? ""}
               ></ProtectedRoute>
             }
           >
