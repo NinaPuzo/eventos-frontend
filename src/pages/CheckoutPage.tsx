@@ -27,10 +27,12 @@ function CheckoutPage() {
       email,
       firstName,
       lastName,
-      events: cart.map((item) => ({
-        eventId: item.eventId,
-        quantity: item.quantity,
-      })),
+      events:
+        cart &&
+        cart.map((item) => ({
+          eventId: item.eventId,
+          quantity: item.quantity,
+        })),
     };
 
     const isCreated = await createOrder(orderData);

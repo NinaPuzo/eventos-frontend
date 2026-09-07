@@ -49,11 +49,12 @@ function AdminPage() {
           value={user.roleId}
           onChange={(event) => handleRoleChange(user.id, event.target.value)}
         >
-          {roles.map((role) => (
-            <option key={role.id} value={role.id}>
-              {role.roleName}
-            </option>
-          ))}
+          {roles &&
+            roles.map((role) => (
+              <option key={role.id} value={role.id}>
+                {role.roleName}
+              </option>
+            ))}
         </select>
       ),
     },
@@ -93,11 +94,12 @@ function AdminPage() {
       >
         <option value="">Sve role</option>
 
-        {roles.map((role) => (
-          <option key={role.id} value={role.id}>
-            {role.roleName}
-          </option>
-        ))}
+        {roles &&
+          roles.map((role) => (
+            <option key={role.id} value={role.id}>
+              {role.roleName}
+            </option>
+          ))}
       </select>
 
       <DataTable columns={columns} data={filteredUsers} />

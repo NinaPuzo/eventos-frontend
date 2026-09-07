@@ -37,15 +37,16 @@ function Select({
       >
         <option value="">Izaberi opciju</option>
 
-        {options.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            className="text-black "
-          >
-            {option.label}
-          </option>
-        ))}
+        {options &&
+          options.map((option) => (
+            <option
+              key={option.value}
+              value={option.value}
+              className="text-black "
+            >
+              {option.label}
+            </option>
+          ))}
       </select>
     </div>
   );

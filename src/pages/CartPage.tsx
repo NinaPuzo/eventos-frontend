@@ -45,28 +45,29 @@ function CartPage() {
         <br />
 
         <div className="flex flex-col gap-5">
-          {cart.map((item) => {
-            const event = events.find((event) => event.id === item.eventId);
+          {cart &&
+            cart.map((item) => {
+              const event = events.find((event) => event.id === item.eventId);
 
-            if (!event) {
-              return null;
-            }
+              if (!event) {
+                return null;
+              }
 
-            return (
-              <CartItem
-                key={item.eventId}
-                event={event}
-                quantity={item.quantity}
-                onIncrease={() => addToCart(item.eventId, 1)}
-                onDecrease={() => {
-                  if (item.quantity > 1) {
-                    addToCart(item.eventId, -1);
-                  }
-                }}
-                onRemove={() => removeFromCart(item.eventId)}
-              />
-            );
-          })}
+              return (
+                <CartItem
+                  key={item.eventId}
+                  event={event}
+                  quantity={item.quantity}
+                  onIncrease={() => addToCart(item.eventId, 1)}
+                  onDecrease={() => {
+                    if (item.quantity > 1) {
+                      addToCart(item.eventId, -1);
+                    }
+                  }}
+                  onRemove={() => removeFromCart(item.eventId)}
+                />
+              );
+            })}
         </div>
       </div>
 
