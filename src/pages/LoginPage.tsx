@@ -39,6 +39,13 @@ function LoginPage() {
       } else {
         navigate("/");
       }
+
+      if (user.roles.includes("admin")) {
+        navigate("/admin/users");
+      } else {
+        navigate("/");
+      }
+
       console.log(user);
 
       console.log("Uspeo sam");
