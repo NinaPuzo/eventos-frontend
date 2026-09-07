@@ -27,7 +27,7 @@ export async function getUser(): Promise<User> {
   return response.data;
 }*/
 
-export async function getAvailableControllers(
+/*export async function getAvailableControllers(
   startTime: string,
 ): Promise<User[]> {
   const selectedDate = startTime.split("T")[0];
@@ -37,7 +37,7 @@ export async function getAvailableControllers(
   );
 
   return Promise.resolve(availableControllers);
-}
+}*/
 
 export async function getAllUsers(): Promise<User[]> {
   const response = await ApiClient.get<User[]>("/api/users");
