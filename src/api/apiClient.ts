@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const apiURL = "https://localhost:44304/";
+const apiURL =
+  "http://eventosapi-abeueqcbg8grcqfe.austriaeast-01.azurewebsites.net";
 
 export const ApiClient = axios.create({
   baseURL: apiURL,
