@@ -49,7 +49,7 @@ export async function updateUserRole(
   user: User,
   roleId: string,
 ): Promise<void> {
-  await ApiClient.put(`/api/users/${user.id}`, {
+  await ApiClient.put(`/api/roles/${user.id}`, {
     email: user?.email,
     firstName: user?.firstName,
     lastName: user?.lastName,
