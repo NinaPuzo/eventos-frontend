@@ -10,4 +10,5 @@ export type CreateEventRequest = {
   isCanceled: boolean;
   startTime: string;
   endTime: string;
+  controllerIds: string[];
 };

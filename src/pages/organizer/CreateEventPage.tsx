@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { getCategories } from "../../api/categoryService";
-import { getAvailableControllers } from "../../api/userService";
 import Input from "../../components/global/Input";
 import Select from "../../components/global/Select";
 import DatePicker from "react-datepicker";
@@ -11,7 +10,7 @@ import type { Category } from "@shared/types/Category";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthContext from "../../context/AuthContext";
 import type { CreateEventRequest } from "@shared/types/CreateEventRequest";
-import { createEvent } from "../../api/eventsService";
+import { createEvent, getAvailableControllers } from "../../api/eventsService";
 
 function CreateEventPage() {
   const [eventName, setEventName] = useState("");
@@ -90,32 +89,26 @@ function CreateEventPage() {
 
     setControllerIds(selectedControllersIds);
   }
+
   {
     /* funkcija kada bude povezano sa apijem */
   }
-  /*async function handleAvailableControllers() {
-    if (!startTime || !endTime) {
-      alert("Prvo unesite datum i vreme početka i završetka događaja.");
-      return;
-    }
-
-    try {
-      const controllers = await getAvailableControllers(startTime, endTime);
-      setAvailableControllers(controllers);
-    } catch (error) {
-      console.error("Greška pri učitavanju kontrolora:", error);
-    }
-  }*/
-
   async function handleAvailableControllers() {
     if (!startTime) {
       setAvailableControllers([]);
       setControllerIds([]);
+      alert("Prvo unesite datum i vreme početka događaja.");
       return;
     }
 
-    const controllers = await getAvailableControllers(startTime);
-    setAvailableControllers(controllers);
+    try {
+      const controllers = await getAvailableControllers(startTime);
+      setAvailableControllers(controllers);
+    } catch (error) {
+      console.error("Greška pri učitavanju kontrolora:", error);
+      setAvailableControllers([]);
+      setControllerIds([]);
+    }
   }
 
   async function handleSubmit() {
@@ -132,10 +125,11 @@ function CreateEventPage() {
       description,
       locationName,
       capacity: Number(capacity),
-      ticketCost: Number(capacity),
+      ticketCost: Number(ticketCost),
       isCanceled: false,
       startTime: new Date(startTime).toISOString(),
       endTime: new Date(endTime).toISOString(),
+      controllerIds: controllerIds,
     };
 
     try {
@@ -147,11 +141,13 @@ function CreateEventPage() {
   }
 
   return (
-    <div className="h-full rounded-[10px] p-14 text-[#333333] border border-[#E5E5E5] ">
-      <h1 className="mb-8 text-[36px] font-semibold">Kreiraj događaj</h1>
+    <div className="mx-auto h-full w-full max-w-6xl rounded-[10px] border border-[#E5E5E5] p-4 text-[#333333] md:p-6 lg:p-10">
+      <h1 className="mb-8 text-3xl font-semibold md:text-4xl">
+        Kreiraj događaj
+      </h1>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <div className="flex flex-col gap-4">
+        <div className="flex min-w-0 flex-col gap-4">
           <Select
             label="Kategorija"
             id="category"
@@ -164,7 +160,7 @@ function CreateEventPage() {
                 label: category.categoryName,
               }))
             }
-            className="w-[560px] h-[48px] rounded-[10px] px-5 text-[16px] text-[#A5A5A5]"
+            className="w-full h-[48px] rounded-[10px] px-5 text-[16px] text-[#A5A5A5]"
           />
 
           <Input
@@ -173,7 +169,7 @@ function CreateEventPage() {
             value={eventName}
             onChange={(event) => setEventName(event.target.value)}
             label="Naziv događaja"
-            className="border rounded-[10px] h-[48px] w-[560px] px-5 pb-1 text-[16px] text-[#A5A5A5] focus:border-transparent focus:outline-none focus:ring-0"
+            className="border rounded-[10px] h-[48px] w-full px-5 pb-1 text-[16px] text-[#A5A5A5] focus:border-transparent focus:outline-none focus:ring-0"
             autoComplete="off"
           />
 
@@ -182,7 +178,7 @@ function CreateEventPage() {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Opis"
-            className="border rounded-[10px]  w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            className="border rounded-[10px]  w-full px-5 text-[16px] text-[#A5A5A5]"
           />
 
           <Input
@@ -191,7 +187,7 @@ function CreateEventPage() {
             value={locationName}
             onChange={(event) => setLocationName(event.target.value)}
             label="Lokacija"
-            className="border rounded-[10px] h-[48px] w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
             autoComplete="off"
           />
 
@@ -201,7 +197,7 @@ function CreateEventPage() {
             value={capacity}
             onChange={(event) => setCapacity(event.target.value)}
             label="Maksimalni kapacitet"
-            className="border rounded-[10px] h-[48px] w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
             autoComplete="off"
           />
 
@@ -211,7 +207,7 @@ function CreateEventPage() {
             value={ticketCost}
             onChange={(event) => setTicketCost(event.target.value)}
             label="Cena"
-            className="border rounded-[10px] h-[48px] w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
             autoComplete="off"
           />
 
@@ -221,15 +217,17 @@ function CreateEventPage() {
             value={imagePath}
             onChange={(event) => setImagePath(event.target.value)}
             label="Fotografija događaja"
-            className="border rounded-[10px] h-[48px] w-[560px] px-5 text-[16px] text-[#A5A5A5]"
+            className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
             autoComplete="off"
           />
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="flex flex-1 flex-col gap-2">
-              <label htmlFor="startTime">Početak događaja</label>
+        <div className="flex min-w-0 flex-col gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="min-w-0">
+              <label htmlFor="startTime" className="mb-2 block">
+                Početak događaja
+              </label>
 
               <DatePicker
                 id="startTime"
@@ -246,7 +244,9 @@ function CreateEventPage() {
             </div>
 
             <div className="flex flex-1 flex-col gap-2">
-              <label htmlFor="endTime">Kraj događaja</label>
+              <label htmlFor="endTime" className="mb-2 block">
+                Kraj događaja
+              </label>
 
               <DatePicker
                 id="endTime"
@@ -267,7 +267,7 @@ function CreateEventPage() {
             type="button"
             label="Prikaži dostupne kontrolore"
             onClick={handleAvailableControllers}
-            className="flex cursor-pointer border items-center justify-center h-[48px] rounded-[10px] "
+            className="flex h-[48px] w-full cursor-pointer items-center justify-center rounded-[10px] border "
           />
 
           <div className="flex flex-col gap-2">
@@ -279,14 +279,14 @@ function CreateEventPage() {
               value={controllerSearch}
               onChange={(event) => setControllerSearch(event.target.value)}
               placeholder="Pretraga kontrolora"
-              className="rounded-md border border-gray-300 bg-white px-4 py-3 text-[#333333] outline-none"
+              className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-[#333333] outline-none"
             />
           </div>
 
-          <div className="overflow-hidden rounded-md border border-gray-300">
+          <div className="w-full overflow-hidden rounded-md border border-gray-300">
             <DataTable
               columns={controllerColumns}
-              data={filterController}
+              data={availableControllers}
               selectableRows
               onSelectedRowsChange={handleSelectedRows}
               noDataComponent="Nema dostupnih kontrolora"
