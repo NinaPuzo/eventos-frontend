@@ -243,7 +243,7 @@ function CreateEventPage() {
               />
             </div>
 
-            <div className="flex flex-1 flex-col gap-2">
+            <div className="flex flex-1 flex-col ">
               <label htmlFor="endTime" className="mb-2 block">
                 Kraj događaja
               </label>
@@ -300,7 +300,7 @@ function CreateEventPage() {
           type="button"
           label="Kreiraj događaj"
           onClick={handleSubmit}
-          className=" w-[590px] flex cursor-pointer bg-[#E98400] items-center justify-center h-[48px] rounded-[10px] font-semibold text-xl text-white "
+          className=" w-full flex cursor-pointer bg-[#E98400] items-center justify-center h-[48px] rounded-[10px] font-semibold text-xl text-white "
         />
       </div>
     </div>

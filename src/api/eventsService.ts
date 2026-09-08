@@ -46,3 +46,15 @@ export async function getAvailableControllers(
 
   return response.data ?? [];
 }
+
+export async function getMyEvents(): Promise<Event[]> {
+  const response = await ApiClient.get<Event[]>("/api/events/myevents");
+
+  return response.data;
+}
+
+export async function cancelEvent(eventId: string): Promise<boolean> {
+  const response = await ApiClient.get(`/api/events/${eventId}/cancel`);
+
+  return response.data;
+}

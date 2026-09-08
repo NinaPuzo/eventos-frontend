@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { getEvents } from "../../api/eventsService";
+import { cancelEvent, getEvents, getMyEvents } from "../../api/eventsService";
 import type { Event } from "@shared/types/Event";
 import { useNavigate } from "react-router-dom";
 import OrganizerEventCard from "../../components/organizer/OrganizerEventCard";
@@ -26,20 +26,31 @@ function OrganizerEventsPage() {
       }
 
       try {
-        const receivedEvents = await getEvents();
-
-        const organizerEvents = receivedEvents.filter(
-          (event) => event.userId === currentUser.id,
-        );
+        const organizerEvents = await getMyEvents();
 
         setEvents(organizerEvents);
       } catch (error) {
-        setError("Nije moguce ucitati dogadjaje.");
+        setError("Nije moguće učitati događaje.");
       }
     }
 
     loadOrganizerEvents();
   }, [currentUser]);
+
+  async function handleCancelEvent(eventId: string): Promise<boolean> {
+    const success = await cancelEvent(eventId);
+
+    if (success) {
+      setEvents((currentEvents) =>
+        currentEvents.map((event) =>
+          event.id === eventId ? { ...event, isCanceled: true } : event,
+        ),
+      );
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   return (
     <div className="p-8 text-[#333333]">
@@ -62,6 +73,7 @@ function OrganizerEventsPage() {
                 event={event}
                 onViewSalesDetails={() => navigate("/organizer/events/sales")}
                 onEditEvent={() => navigate("/organizer/events/edit")}
+                onCancelEvent={() => handleCancelEvent(event.id)}
               />
             ))}
         </div>

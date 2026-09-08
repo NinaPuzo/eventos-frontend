@@ -4,12 +4,14 @@ type OrganizerEventCardProps = {
   event: Event;
   onViewSalesDetails: () => void;
   onEditEvent: () => void;
+  onCancelEvent: () => boolean;
 };
 
 function OrganizerEventCard({
   event,
   onViewSalesDetails,
   onEditEvent,
+  onCancelEvent,
 }: OrganizerEventCardProps) {
   return (
     <div>
@@ -40,6 +42,18 @@ function OrganizerEventCard({
           >
             Edituj
           </button>
+
+          {event.isCanceled ? (
+            <span className="font-semibold text-red-600">Otkazan</span>
+          ) : (
+            <button
+              type="button"
+              onClick={onCancelEvent}
+              className="rounded-full border bg-red-600 px-7 py-2"
+            >
+              Otkaži događaj
+            </button>
+          )}
         </div>
       </div>
     </div>
