@@ -9,6 +9,16 @@ export async function getEvents(): Promise<Event[]> {
   return response.data;
 }
 
+export async function getEventsByCategory(
+  categoryId: string,
+): Promise<Event[]> {
+  const response = await ApiClient.get<Event[]>(
+    `/api/events/category/${categoryId}`,
+  );
+
+  return response.data;
+}
+
 export async function getEventsById(id: string): Promise<Event | undefined> {
   const response = await ApiClient.get(`/api/events/${id}`);
 

@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import EventCard from "../components/events/EventCard";
 import { useEffect, useState } from "react";
 import type { Event } from "@shared/types/Event";
-import { getEvents } from "../api/eventsService";
+import { getEvents, getEventsByCategory } from "../api/eventsService";
 
 function EventPage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -10,49 +10,35 @@ function EventPage() {
   const [searchParams] = useSearchParams();
   const selectedCategoryId = searchParams.get("categoryId");
 
-  function filterEventsByCategory() {
-    if (!selectedCategoryId) {
-      return events;
-    }
-
-    return events.filter((event) => event.categoryId === selectedCategoryId);
-  }
-
-  const filteredEvents = filterEventsByCategory();
-
   useEffect(() => {
     async function loadEvents() {
       try {
-        const receivedEvents = await getEvents();
+        const receivedEvents = selectedCategoryId
+          ? await getEventsByCategory(selectedCategoryId)
+          : await getEvents();
 
         setEvents(receivedEvents);
       } catch (error) {
         console.error("Greška pri učitavanju događaja.", error);
+        setEvents([]);
       }
     }
 
     loadEvents();
-  }, []);
-
-  /*useEffect(() => {
-    const filter = events.filter(
-      (events) =>
-        events.category.toLowerCase() === selectedCategory?.toLowerCase(),
-    );
-
-    setFilteredEvents(filter);
-  }, [searchParams, events]);*/
+  }, [selectedCategoryId]);
 
   return (
-    <div>
-      {filteredEvents.length === 0 ? (
+    <div className="w-full">
+      {events.length === 0 ? (
         <p className="text-lg text-white p-10 px-60">
           Trenutno nema događaja u ovoj kategoriji.
         </p>
       ) : (
-        filteredEvents.map((event) => (
-          <EventCard key={event.id} event={event} />
-        ))
+        <div className="grid grid-cols-1 gap-5 px-6 py-20 md:grid-cols-2 md:px-20">
+          {events.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </div>
       )}
     </div>
   );
