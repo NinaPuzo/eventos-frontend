@@ -7,13 +7,20 @@ import cartIcon from "../../assets/icons/cartIcon.svg";
 import CartContext from "../../context/CartContext";
 import { useLocation } from "react-router-dom";
 
-function Header() {
+type HeaderProps = {
+  isOverlay?: boolean;
+};
+
+function Header({ isOverlay = false }: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage =
     location.pathname === "/" ||
     location.pathname === "/login" ||
     location.pathname === "/register";
+
+  const isProfilePage = location.pathname === "/profile";
+  const isUserTicketPage = location.pathname === "/profile/tickets";
 
   const authContext = useContext(AuthContext);
   const cartContext = useContext(CartContext);
@@ -40,7 +47,10 @@ function Header() {
 
   return (
     <header
-      className={`top-0 left-0 z-20 flex w-full h-16 px-60 text-white items-center justify-between ${isHomePage ? "absolute bg-transparent" : "relative bg-[#181818]"}`}
+      className={`top-0 left-0 z-20 flex w-full h-16 px-60 text-white items-center justify-between 
+        ${isHomePage ? "absolute bg-transparent" : "relative bg-[#181818]"} 
+        ${isProfilePage ? "px-8 lg:px-16" : "px-6 md:px-16 xl:px-60"}
+        ${isUserTicketPage ? "px-8 lg:px-16" : "px-6 md:px-16 xl:px-60"}`}
     >
       <div className="flex items-center justify-center gap-10">
         <Link to="/">
