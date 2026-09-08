@@ -47,10 +47,9 @@ function Header({ isOverlay = false }: HeaderProps) {
 
   return (
     <header
-      className={`top-0 left-0 z-20 flex w-full h-16 px-60 text-white items-center justify-between 
+      className={`top-0 left-0 z-20 flex w-full h-16  text-white items-center justify-between 
         ${isHomePage ? "absolute bg-transparent" : "relative bg-[#181818]"} 
-        ${isProfilePage ? "px-8 lg:px-16" : "px-6 md:px-16 xl:px-60"}
-        ${isUserTicketPage ? "px-8 lg:px-16" : "px-6 md:px-16 xl:px-60"}`}
+        ${isProfilePage || isUserTicketPage ? "px-8 lg:px-16" : "px-6 md:px-16 xl:px-60"}`}
     >
       <div className="flex items-center justify-center gap-10">
         <Link to="/">
