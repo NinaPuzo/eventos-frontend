@@ -18,6 +18,9 @@ import CheckoutPage from "./pages/CheckoutPage";
 import OrganizerLayout from "./pages/organizer/OrganizerLayout";
 import OrganizerEventsPage from "./pages/organizer/OrganizerEventsPage";
 import CreateEventPage from "./pages/organizer/CreateEventPage";
+import ProfilePage from "./pages/profile/ProfilePage";
+import UserTicketsPage from "./pages/profile/UserTicketsPage";
+import ProfileLayout from "./pages/profile/ProfileLayout";
 
 function App() {
   const authContext = useContext(AuthContext);
@@ -27,6 +30,7 @@ function App() {
   const isAdminPage = location.pathname.startsWith("/admin");
   const isLoginPage = location.pathname.startsWith("/login");
   const isRegisterPage = location.pathname.startsWith("/register");
+  const isProfilePage = location.pathname.startsWith("/profile");
 
   const [error, setError] = useState("");
 
@@ -53,7 +57,7 @@ function App() {
         isOrganizerPage || isAdminPage ? "bg-[#232323]" : "bg-[#1A1A1A]"
       }`}
     >
-      {!isOrganizerPage && !isAdminPage && <Header />}
+      {!isOrganizerPage && !isAdminPage && !isProfilePage && <Header />}
 
       <main className="flex-1">
         <Routes>
@@ -64,6 +68,10 @@ function App() {
           <Route path="/event/:id" element={<EventDetailsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/profile" element={<ProfileLayout />}>
+            <Route index element={<ProfilePage />} />
+            <Route path="tickets" element={<UserTicketsPage />} />
+          </Route>
           <Route
             path="/admin"
             element={
@@ -87,9 +95,11 @@ function App() {
         </Routes>
       </main>
 
-      {!isOrganizerPage && !isAdminPage && !isLoginPage && !isRegisterPage && (
-        <Footer />
-      )}
+      {!isOrganizerPage &&
+        !isAdminPage &&
+        !isLoginPage &&
+        !isRegisterPage &&
+        !isProfilePage && <Footer />}
     </div>
   );
 }
