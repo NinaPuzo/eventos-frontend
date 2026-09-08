@@ -6,16 +6,29 @@ import { getEvents } from "../api/eventsService";
 
 function EventPage() {
   const [events, setEvents] = useState<Event[]>([]);
-  //const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
 
-  //const [searchParams] = useSearchParams();
-  //const selectedCategory = searchParams.get("category");
+  const [searchParams] = useSearchParams();
+  const selectedCategoryId = searchParams.get("categoryId");
+
+  function filterEventsByCategory() {
+    if (!selectedCategoryId) {
+      return events;
+    }
+
+    return events.filter((event) => event.categoryId === selectedCategoryId);
+  }
+
+  const filteredEvents = filterEventsByCategory();
 
   useEffect(() => {
     async function loadEvents() {
-      const receivedEvents = await getEvents();
+      try {
+        const receivedEvents = await getEvents();
 
-      setEvents(receivedEvents);
+        setEvents(receivedEvents);
+      } catch (error) {
+        console.error("Greška pri učitavanju događaja.", error);
+      }
     }
 
     loadEvents();
@@ -31,15 +44,16 @@ function EventPage() {
   }, [searchParams, events]);*/
 
   return (
-    /*<div>
-      {filteredEvents.map((events) => (
-        <EventCard key={events.id} event={events} />
-      ))}
-    </div>*/
-
     <div>
-      {events &&
-        events.map((event) => <EventCard key={event.id} event={event} />)}
+      {filteredEvents.length === 0 ? (
+        <p className="text-lg text-white p-10 px-60">
+          Trenutno nema događaja u ovoj kategoriji.
+        </p>
+      ) : (
+        filteredEvents.map((event) => (
+          <EventCard key={event.id} event={event} />
+        ))
+      )}
     </div>
   );
 }

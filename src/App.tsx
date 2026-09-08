@@ -25,6 +25,8 @@ function App() {
 
   const isOrganizerPage = location.pathname.startsWith("/organizer");
   const isAdminPage = location.pathname.startsWith("/admin");
+  const isLoginPage = location.pathname.startsWith("/login");
+  const isRegisterPage = location.pathname.startsWith("/register");
 
   const [error, setError] = useState("");
 
@@ -85,7 +87,9 @@ function App() {
         </Routes>
       </main>
 
-      {!isOrganizerPage && !isAdminPage && <Footer />}
+      {!isOrganizerPage && !isAdminPage && !isLoginPage && !isRegisterPage && (
+        <Footer />
+      )}
     </div>
   );
 }

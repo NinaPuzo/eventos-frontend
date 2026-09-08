@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
 import { login } from "../api/authService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/global/Button";
 import AuthContext from "../context/AuthContext";
 import { AuthStatus } from "../shared/constants/AuthStatus";
 import { getUser } from "../api/userService";
+import heroImage from "../images/hero.jpg";
+import Input from "../components/global/Input";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -54,44 +56,66 @@ function LoginPage() {
   }
 
   return (
-    <div className="flex justify-center px-20 py-12">
-      <form
-        onSubmit={handleSubmit}
-        className="flex w-[45%] flex-col gap-10 rounded-lg bg-gray-100 p-10 px-15"
-      >
-        <h1 className="text-center text-xl font-semibold">Prijava</h1>
+    <main className="relative min-h-screen ">
+      <img
+        src={heroImage}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+      />
 
-        <div className="flex flex-col gap-1">
-          <label>E-mail adresa</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            className="border"
-            onChange={(event) => setEmail(event.target.value)}
+      <div className="absolute inset-0 bg-black/65" />
+
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-8 py-12 shadow-2xl sm:px-8 sm:py-10 lg:px-10">
+        <form
+          onSubmit={handleSubmit}
+          className="flex w-full max-w-[400px] flex-col gap-6 rounded-lg bg-white px-8 py-10 "
+        >
+          <h1 className="mt-15 mb-7 text-center text-4xl font-semibold text-[#4D4D4D]">
+            Prijavi se
+          </h1>
+
+          <div className="flex flex-col gap-2">
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              placeholder="Email"
+              onChange={(event) => setEmail(event.target.value)}
+              inputClassName="h-12 w-full rounded border border-[#ADADAD] px-4 text-sm text-black placeholder:text-[#ADADAD] outline-none"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              placeholder="Lozinka"
+              onChange={(event) => setPassword(event.target.value)}
+              inputClassName="h-12 w-full rounded border border-[#ADADAD] px-4 text-sm text-black placeholder:text-[#ADADAD] outline-none"
+            />
+          </div>
+
+          {error && <p className="text-center text-sm text-red-600">{error}</p>}
+
+          <Button
+            type="submit"
+            className="cursor-pointer h-[48px] bg-[#E98400] p-2 rounded-[5px] text-white font-semibold mt-6"
+            label="Nastavi"
           />
-        </div>
 
-        <div className="flex flex-col gap-1">
-          <label>Lozinka</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            className="border"
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-
-        {error && <p className="text-center text-sm text-red-600">{error}</p>}
-
-        <Button
-          type="submit"
-          className="cursor-pointer bg-blue-200 p-2"
-          label="Prijavi se"
-        />
-      </form>
-    </div>
+          <p className="mt-1 text-s text-[#4D4D4D] mb-10">
+            Nemate nalog?{" "}
+            <Link
+              to="/register"
+              className="border-b border-[#4D4D4D] font-semibold"
+            >
+              Registruj se
+            </Link>
+          </p>
+        </form>
+      </div>
+    </main>
   );
 }
 

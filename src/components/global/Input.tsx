@@ -1,7 +1,7 @@
 import type { ChangeEventHandler } from "react";
 
 type InputProps = {
-  label: string;
+  label?: string;
   id: string;
   type: React.HTMLInputTypeAttribute;
   value?: string | number;
@@ -10,6 +10,7 @@ type InputProps = {
   accept?: string;
   autoComplete?: React.HTMLInputAutoCompleteAttribute;
   inputClassName?: string;
+  placeholder?: string;
 };
 
 function Input({
@@ -18,22 +19,22 @@ function Input({
   type,
   value,
   onChange,
-  className,
+  className = "",
   autoComplete,
   inputClassName = "",
+  placeholder,
 }: InputProps) {
   return (
     <div className={`flex flex-col ${className}`}>
-      <label>
-        {label} <span className="text-red-500">*</span>
-      </label>
+      {label && <label htmlFor={id}>{label}</label>}
       <input
         id={id}
         type={type}
         value={value}
         onChange={onChange}
         autoComplete={autoComplete}
-        required
+        placeholder={placeholder}
+        className={inputClassName}
       />
     </div>
   );
