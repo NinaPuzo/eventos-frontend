@@ -9,12 +9,12 @@ type EventCardProps = {
 function EventCard({ event }: EventCardProps) {
   const { date, time } = formatEventDate(event.startTime);
   return (
-    <div className="flex flex-col w-[216px]">
+    <div className="flex w-[216px] flex-col">
       <Link to={`/event/${event.id}`}>
         <img
           src={`https://eventosapi-abeueqcbg8grcqfe.austriaeast-01.azurewebsites.net/api/events/${event.id}/image`}
           alt="Slika dogadjaja"
-          className="border rounded-lg p-4 w-[216px] h-[312px] text-white"
+          className="h-[312px] w-[216px] rounded-lg object-cover"
         />
       </Link>
 
