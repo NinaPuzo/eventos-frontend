@@ -44,12 +44,12 @@ function OrganizerEventCard({
           </button>
 
           {event.isCanceled ? (
-            <span className="font-semibold text-red-600">Otkazan</span>
+            <span className="font-semibold text-[#E98400]">Otkazan</span>
           ) : (
             <button
               type="button"
               onClick={onCancelEvent}
-              className="rounded-full border bg-red-600 px-7 py-2"
+              className="rounded-full border bg-[#E98400] px-7 py-2"
             >
               Otkaži događaj
             </button>

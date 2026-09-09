@@ -303,6 +303,8 @@ function CreateEventPage() {
               selectableRows
               onSelectedRowsChange={handleSelectedRows}
               noDataComponent="Nema dostupnih kontrolora"
+              fixedHeader
+              fixedHeaderScrollHeight="300px"
             />
           </div>
         </div>

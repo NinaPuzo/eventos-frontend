@@ -35,13 +35,10 @@ function AdminPage() {
 
   const columns: TableColumn<User>[] = [
     {
-      name: "Ime",
-      selector: (user) => user.firstName,
+      name: "Ime i prezime",
+      selector: (user) => `${user.firstName} ${user.lastName}`,
     },
-    {
-      name: "Prezime",
-      selector: (user) => user.lastName,
-    },
+
     {
       name: "Email",
       selector: (user) => user.email,
