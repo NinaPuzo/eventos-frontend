@@ -5,6 +5,7 @@ type OrganizerEventCardProps = {
   onViewSalesDetails: () => void;
   onEditEvent: () => void;
   onCancelEvent: () => Promise<boolean>;
+  onDeleteEvent: () => Promise<boolean>;
 };
 
 function OrganizerEventCard({
@@ -12,6 +13,7 @@ function OrganizerEventCard({
   onViewSalesDetails,
   onEditEvent,
   onCancelEvent,
+  onDeleteEvent,
 }: OrganizerEventCardProps) {
   return (
     <div>
@@ -54,6 +56,13 @@ function OrganizerEventCard({
               Otkaži događaj
             </button>
           )}
+          <button
+            type="button"
+            onClick={onDeleteEvent}
+            className="rounded-full border bg-red-600 text-white cursor-pointer px-7 py-2"
+          >
+            Obriši događaj
+          </button>
         </div>
       </div>
     </div>

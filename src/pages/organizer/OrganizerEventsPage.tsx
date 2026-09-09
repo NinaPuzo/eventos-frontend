@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { cancelEvent, getEvents, getMyEvents } from "../../api/eventsService";
+import {
+  cancelEvent,
+  deleteEvent,
+  getEvents,
+  getMyEvents,
+} from "../../api/eventsService";
 import type { Event } from "@shared/types/Event";
 import { useNavigate } from "react-router-dom";
 import OrganizerEventCard from "../../components/organizer/OrganizerEventCard";
@@ -52,6 +57,19 @@ function OrganizerEventsPage() {
     }
   }
 
+  async function handleDeleteEvent(eventId: string): Promise<boolean> {
+    const success = await deleteEvent(eventId);
+
+    if (success) {
+      setEvents((currentEvents) =>
+        currentEvents.filter((event) => event.id !== eventId),
+      );
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <div className="p-8 text-[#333333]">
       <div className="mb-10">
@@ -74,6 +92,7 @@ function OrganizerEventsPage() {
                 onViewSalesDetails={() => navigate("/organizer/events/sales")}
                 onEditEvent={() => navigate("/organizer/events/edit")}
                 onCancelEvent={() => handleCancelEvent(event.id)}
+                onDeleteEvent={() => handleDeleteEvent(event.id)}
               />
             ))}
         </div>

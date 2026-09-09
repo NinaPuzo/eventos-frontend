@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import AuthContext from "../../context/AuthContext";
 import type { CreateEventRequest } from "@shared/types/CreateEventRequest";
 import { createEvent, getAvailableControllers } from "../../api/eventsService";
+import { useNavigate } from "react-router-dom";
 
 function CreateEventPage() {
   const [eventName, setEventName] = useState("");
@@ -30,6 +31,7 @@ function CreateEventPage() {
   const [controllerSearch, setControllerSearch] = useState("");
 
   const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
   if (!authContext) {
     throw new Error("CreateEventPage mora biti unutar AuthProvider-a.");
@@ -147,6 +149,7 @@ function CreateEventPage() {
 
     try {
       await createEvent(newEvent);
+      navigate("/organizer/events");
       alert("Događaj je uspešno kreiran!");
     } catch (error) {
       console.error("Greska");

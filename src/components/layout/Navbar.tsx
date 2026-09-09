@@ -21,11 +21,12 @@ function NavBar() {
 
   return (
     <nav className="flex flex-row gap-10 ">
-      {categories.map((category) => (
-        <Link key={category.id} to={`/events?categoryId=${category.id}`}>
-          {category.categoryName}
-        </Link>
-      ))}
+      {categories &&
+        categories.map((category) => (
+          <Link key={category.id} to={`/events?categoryId=${category.id}`}>
+            {category.categoryName}
+          </Link>
+        ))}
     </nav>
   );
 }
