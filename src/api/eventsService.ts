@@ -27,8 +27,38 @@ export async function getEventsById(id: string): Promise<Event | undefined> {
 
 export async function createEvent(
   eventData: CreateEventRequest,
-): Promise<void> {
-  await ApiClient.post("/api/events", eventData);
+): Promise<boolean> {
+  try {
+    const formData = new FormData();
+
+    formData.append("userId", eventData.userId);
+    formData.append("categoryId", eventData.categoryId);
+    formData.append("eventName", eventData.eventName);
+    formData.append("description", eventData.description);
+    formData.append("locationName", eventData.locationName);
+    formData.append("capacity", eventData.capacity.toString());
+    formData.append("ticketCost", eventData.ticketCost.toString());
+    formData.append("isCanceled", eventData.isCanceled.toString());
+    formData.append("startTime", eventData.startTime);
+    formData.append("endTime", eventData.endTime);
+
+    console.log(eventData.image);
+
+    if (eventData.image) {
+      formData.append("imageFile", eventData.image);
+    }
+
+    eventData.controllerIds.forEach((controllerId) => {
+      formData.append("controllerIds", controllerId);
+    });
+
+    await ApiClient.post("/api/events", formData);
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 }
 
 export async function getAvailableControllers(

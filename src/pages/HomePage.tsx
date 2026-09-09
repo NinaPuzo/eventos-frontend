@@ -27,9 +27,8 @@ function HomePage() {
         <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/25 to-transparent" />
       </section>
       <div className="grid grid-cols-2 gap-5 py-20 place-items-center">
-        {events.map((events) => (
-          <EventCard key={events.id} event={events} />
-        ))}
+        {events &&
+          events.map((events) => <EventCard key={events.id} event={events} />)}
       </div>
     </div>
   );

@@ -21,7 +21,8 @@ function CreateEventPage() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
-  const [imagePath, setImagePath] = useState("");
+  //const [imagePath, setImagePath] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const [categoryId, setCategoryId] = useState("");
   const [availableControllers, setAvailableControllers] = useState<User[]>([]);
   const [controllerIds, setControllerIds] = useState<string[]>([]);
@@ -111,6 +112,18 @@ function CreateEventPage() {
     }
   }
 
+  function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const selectedImage = event.target.files?.[0];
+
+    if (!selectedImage) {
+      setImage(null);
+      return;
+    }
+
+    setImage(selectedImage);
+    console.log(selectedImage);
+  }
+
   async function handleSubmit() {
     if (!currentUser) {
       alert("Morate biti prijavljeni da biste kreirali događaj.");
@@ -120,7 +133,7 @@ function CreateEventPage() {
     const newEvent: CreateEventRequest = {
       userId: currentUser.id,
       categoryId,
-      imagePath,
+      image: image,
       eventName,
       description,
       locationName,
@@ -149,8 +162,8 @@ function CreateEventPage() {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="flex min-w-0 flex-col gap-4">
           <Select
-            label="Kategorija"
             id="category"
+            label="Kategorija"
             value={categoryId}
             onChange={(event) => setCategoryId(event.target.value)}
             options={
@@ -160,7 +173,7 @@ function CreateEventPage() {
                 label: category.categoryName,
               }))
             }
-            className="w-full h-[48px] rounded-[10px] px-5 text-[16px] text-[#A5A5A5]"
+            className="w-full h-[48px] rounded-[10px] px-5 text-[16px] text-black placeholder:text-[#ADADAD]"
           />
 
           <Input
@@ -168,8 +181,8 @@ function CreateEventPage() {
             type="text"
             value={eventName}
             onChange={(event) => setEventName(event.target.value)}
-            label="Naziv događaja"
-            className="border rounded-[10px] h-[48px] w-full px-5 pb-1 text-[16px] text-[#A5A5A5] focus:border-transparent focus:outline-none focus:ring-0"
+            placeholder="Naziv događaja"
+            inputClassName="h-12 w-full rounded-[10px] border border-[#ADADAD] px-4 text-[16px] text-black placeholder:text-[#ADADAD] outline-none"
             autoComplete="off"
           />
 
@@ -178,7 +191,8 @@ function CreateEventPage() {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Opis"
-            className="border rounded-[10px]  w-full px-5 text-[16px] text-[#A5A5A5]"
+            rows={5}
+            className="w-full resize-none rounded-[10px] border border-[#ADADAD] px-5 py-3 text-[16px] text-[#333333] placeholder:text-[#A5A5A5] outline-none focus:border-[#E98400]"
           />
 
           <Input
@@ -186,8 +200,8 @@ function CreateEventPage() {
             type="text"
             value={locationName}
             onChange={(event) => setLocationName(event.target.value)}
-            label="Lokacija"
-            className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
+            placeholder="Lokacija"
+            inputClassName="h-12 w-full rounded-[10px] border border-[#ADADAD] px-4 text-[16px] text-black placeholder:text-[#ADADAD] outline-none"
             autoComplete="off"
           />
 
@@ -196,8 +210,8 @@ function CreateEventPage() {
             type="number"
             value={capacity}
             onChange={(event) => setCapacity(event.target.value)}
-            label="Maksimalni kapacitet"
-            className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
+            placeholder="Maksimalni kapacitet"
+            inputClassName="h-12 w-full rounded-[10px] border border-[#ADADAD] px-4 text-[16px] text-black placeholder:text-[#ADADAD] outline-none"
             autoComplete="off"
           />
 
@@ -206,19 +220,18 @@ function CreateEventPage() {
             type="number"
             value={ticketCost}
             onChange={(event) => setTicketCost(event.target.value)}
-            label="Cena"
-            className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
+            placeholder="Cena"
+            inputClassName="h-12 w-full rounded-[10px] border border-[#ADADAD] px-4 text-[16px] text-black placeholder:text-[#ADADAD] outline-none"
             autoComplete="off"
           />
 
           <Input
-            id="imagePath"
-            type="text"
-            value={imagePath}
-            onChange={(event) => setImagePath(event.target.value)}
-            label="Fotografija događaja"
+            id="image"
+            type="file"
+            onChange={handleImageChange}
+            placeholder="Fotografija događaja"
+            accept="image/jpeg,image/png,image/gif,image/webp"
             className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
-            autoComplete="off"
           />
         </div>
 

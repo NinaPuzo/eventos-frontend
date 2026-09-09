@@ -4,13 +4,14 @@ type SelectOption = {
 };
 
 type SelectProps = {
-  label: string;
+  label?: string;
   id: string;
   value: string;
   options: SelectOption[];
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
   required?: boolean;
   className?: string;
+  placeholder?: string;
 };
 
 function Select({
@@ -21,6 +22,7 @@ function Select({
   onChange,
   required = false,
   className = "",
+  placeholder,
 }: SelectProps) {
   return (
     <div className="flex flex-col gap-2">

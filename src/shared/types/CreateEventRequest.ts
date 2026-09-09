@@ -1,7 +1,7 @@
 export type CreateEventRequest = {
   userId: string;
   categoryId: string;
-  imagePath: string;
+  image: File | null;
   eventName: string;
   description: string;
   locationName: string;

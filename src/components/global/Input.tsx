@@ -23,6 +23,7 @@ function Input({
   autoComplete,
   inputClassName = "",
   placeholder,
+  accept,
 }: InputProps) {
   return (
     <div className={`flex flex-col ${className}`}>
@@ -35,6 +36,7 @@ function Input({
         autoComplete={autoComplete}
         placeholder={placeholder}
         className={inputClassName}
+        accept={accept}
       />
     </div>
   );

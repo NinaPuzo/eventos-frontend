@@ -12,6 +12,7 @@ function EventCard({ event }: EventCardProps) {
     <div className="flex flex-col w-[216px]">
       <Link to={`/event/${event.id}`}>
         <img
+          src={`https://eventosapi-abeueqcbg8grcqfe.austriaeast-01.azurewebsites.net/api/events/${event.id}/image`}
           alt="Slika dogadjaja"
           className="border rounded-lg p-4 w-[216px] h-[312px] text-white"
         />
