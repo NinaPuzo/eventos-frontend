@@ -4,7 +4,7 @@ type OrganizerEventCardProps = {
   event: Event;
   onViewSalesDetails: () => void;
   onEditEvent: () => void;
-  onCancelEvent: () => boolean;
+  onCancelEvent: () => Promise<boolean>;
 };
 
 function OrganizerEventCard({

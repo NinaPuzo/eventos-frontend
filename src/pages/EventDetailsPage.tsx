@@ -24,7 +24,10 @@ function EventDetailsPage() {
     <div className="flex flex-col  w-full py-[140px] pl-[155px] pr-[155px]">
       <div className="flex flex-row mx-auto w-[90%] py-12 px-15 gap-30 min-h-[400px] rounded-2xl border-white/10 shadow-2xl text-white bg-gradient-to-br from-[#303030] via-[#242424] to-[#171717]">
         <div className="flex w-[35%] justify-center bg-[#303030] rounded-lg">
-          <img alt="Slika dogadjaja"></img>
+          <img
+            src={`https://eventosapi-abeueqcbg8grcqfe.austriaeast-01.azurewebsites.net/api/events/${event?.id}/image`}
+            alt="Slika dogadjaja"
+          ></img>
         </div>
 
         {event && <EventInfo event={event} />}
