@@ -9,12 +9,14 @@ type EventCardProps = {
 function EventCard({ event }: EventCardProps) {
   const { date, time } = formatEventDate(event.startTime);
   return (
-    <div className="flex w-[216px] flex-col">
+    <div className="flex relative overflow-hidden rounded-lg  w-[216px] flex-col">
       <Link to={`/event/${event.id}`}>
         <img
           src={`https://eventosapi-abeueqcbg8grcqfe.austriaeast-01.azurewebsites.net/api/events/${event.id}/image`}
           alt="Slika dogadjaja"
-          className="h-[312px] w-[216px] rounded-lg object-cover"
+          className={`h-[312px] w-[216px] rounded-lg object-cover  ${
+            event.isCanceled ? "grayscale-[80%]" : ""
+          }`}
         />
       </Link>
 
@@ -28,6 +30,14 @@ function EventCard({ event }: EventCardProps) {
 
         <p className="text-[#8B8B8B] text-[17px]">{event.locationName}</p>
       </div>
+
+      {event.isCanceled && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="rounded-md border-2 border-white/40 bg-[#181818]/80 px-4 py-2 text-m font-semibold uppercase tracking-[0.15em] text-white">
+            Otkazan
+          </span>
+        </div>
+      )}
     </div>
   );
 }

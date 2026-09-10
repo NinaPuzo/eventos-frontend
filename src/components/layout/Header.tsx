@@ -3,6 +3,7 @@ import NavBar from "./Navbar";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import logo from "../../assets/logo.svg";
+import userIcon from "../../assets/icons/userIcon.svg";
 import cartIcon from "../../assets/icons/cartIcon.svg";
 import CartContext from "../../context/CartContext";
 import { useLocation } from "react-router-dom";
@@ -59,45 +60,49 @@ function Header({ isOverlay = false }: HeaderProps) {
         <NavBar />
       </div>
 
-      <div className="flex items-center justify-center gap-10">
+      <div className="flex items-center justify-center gap-6">
         {currentUser ? (
           <>
-            <Link to="/profile">Profil</Link>
-
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="cursor-pointer"
-            >
-              Odjavi se
-            </button>
-
-            {currentUser?.roleId === "12390B06-A2D5-4EE6-B3EA-8F47454A2AE7" && (
-              <Link
-                to="/cart"
-                className="relative p-2 bg-[#3B3B3B] border border-[#3D3D3D] rounded-full"
-              >
-                <div className="absolute -right-2 -top-2 rounded-full flex justify-center items-center h-4 w-4  bg-white text-black text-[12px]">
-                  {cartCount}
-                </div>
-                <img src={cartIcon} alt="cart" className="scale-125" />
-              </Link>
-            )}
-          </>
-        ) : (
-          <>
-            <Link to="/login">Prijavi se</Link>
-            <Link to="/register">Registruj se</Link>
+            <Link to="/profile">
+              <div className="flex justify-center items-center h-8 w-8 rounded-full bg-[#4A4A4A9E]">
+                <img src={userIcon} alt="Profile icon" />
+              </div>
+            </Link>
 
             <Link
               to="/cart"
-              className="relative p-2 bg-[#3B3B3B] border border-[#3D3D3D] rounded-full"
+              className="relative flex justify-center items-center bg-[#4A4A4A9E] border border-[#3D3D3D] rounded-full h-8 w-8"
             >
-              <div className="absolute -right-2 -top-2 rounded-full flex justify-center items-center h-4 w-4  bg-white text-black text-[12px]">
+              <div className="absolute -right-[6px] -top-[6px] rounded-full bg-white h-4 w-4 flex justify-center items-center text-black text-[12px]">
                 {cartCount}
               </div>
               <img src={cartIcon} alt="cart" className="scale-125" />
             </Link>
+
+            <div className="flex justify-center items-center bg-[#4A4A4A9E] px-4 py-1 text-[16px] rounded-full">
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="cursor-pointer"
+              >
+                Odjavi se
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/cart"
+              className="relative flex justify-center items-center bg-[#4A4A4A9E] border border-[#3D3D3D] rounded-full h-8 w-8"
+            >
+              <div className="absolute -right-[6px] -top-[6px] rounded-full bg-white h-4 w-4 flex justify-center items-center text-black text-[12px]">
+                {cartCount}
+              </div>
+              <img src={cartIcon} alt="cart" className="scale-125" />
+            </Link>
+            <div className="flex justify-center items-center bg-[#4A4A4A9E] px-4 py-1 text-[16px] rounded-full">
+              <Link to="/login">Prijavi se</Link>
+            </div>
           </>
         )}
       </div>

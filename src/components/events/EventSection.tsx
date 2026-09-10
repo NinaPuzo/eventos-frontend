@@ -23,11 +23,13 @@ function EventSection({ title, events, categoryId }: EventSectionProps) {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {events.map((event) => (
-            <div key={event.id} className="w-[180px] shrink-0">
-              <EventCard event={event} />
-            </div>
-          ))}
+          {events
+            .map((event) => (
+              <div key={event.id} className="w-[180px] shrink-0">
+                <EventCard event={event} />
+              </div>
+            ))
+            .slice(0, 4)}
         </div>
       </section>
     )
