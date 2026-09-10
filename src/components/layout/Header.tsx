@@ -72,15 +72,17 @@ function Header({ isOverlay = false }: HeaderProps) {
               Odjavi se
             </button>
 
-            <Link
-              to="/cart"
-              className="relative p-2 bg-[#3B3B3B] border border-[#3D3D3D] rounded-full"
-            >
-              <div className="absolute -right-2 -top-2 rounded-full flex justify-center items-center h-4 w-4  bg-white text-black text-[12px]">
-                {cartCount}
-              </div>
-              <img src={cartIcon} alt="cart" className="scale-125" />
-            </Link>
+            {currentUser?.roleId === "12390B06-A2D5-4EE6-B3EA-8F47454A2AE7" && (
+              <Link
+                to="/cart"
+                className="relative p-2 bg-[#3B3B3B] border border-[#3D3D3D] rounded-full"
+              >
+                <div className="absolute -right-2 -top-2 rounded-full flex justify-center items-center h-4 w-4  bg-white text-black text-[12px]">
+                  {cartCount}
+                </div>
+                <img src={cartIcon} alt="cart" className="scale-125" />
+              </Link>
+            )}
           </>
         ) : (
           <>

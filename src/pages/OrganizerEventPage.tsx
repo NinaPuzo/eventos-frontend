@@ -25,11 +25,13 @@ function OrganizerEventPage() {
       try {
         const allEvents = await getEvents();
 
-        const organizerEvents = allEvents.filter(
-          (event) => event.userId === organizerId,
-        );
+        if (allEvents) {
+          const organizerEvents = allEvents.filter(
+            (event) => event.userId === organizerId,
+          );
 
-        setMyEvents(organizerEvents);
+          setMyEvents(organizerEvents);
+        }
       } catch (error) {
         console.error("Greska pri učitavanju događaja organizatora.", error);
       }

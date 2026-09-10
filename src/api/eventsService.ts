@@ -88,3 +88,9 @@ export async function cancelEvent(eventId: string): Promise<boolean> {
 
   return response.data;
 }
+
+export async function deleteEvent(eventId: string): Promise<boolean> {
+  const response = await ApiClient.delete(`/api/events/${eventId}`);
+
+  return response.data;
+}
