@@ -30,7 +30,7 @@ function OrganizerSideBar() {
     navigate("/");
   }
   return (
-    <aside className="flex flex-col z-10 w-full border-b border-[#C8C2C2] bg-white p-4 text-lg md:min-h-screen md:w-86 md:border-b-0 md:border-r md:shadow-[12px_0_25px_rgba(0,0,0,0.14)]">
+    <aside className="flex flex-col h-screen shrink-0 overflow-y-auto z-10 w-full border-b border-[#C8C2C2] bg-white p-4 text-lg md:min-h-screen md:w-86 md:border-b-0 md:border-r md:shadow-[12px_0_25px_rgba(0,0,0,0.14)]">
       <div className="mb-6 flex items-center gap-3 border-b border-gray-700 pb-5">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-mauve-300 text-lg font-semibold text-white">
           {initial}

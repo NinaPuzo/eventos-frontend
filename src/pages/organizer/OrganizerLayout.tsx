@@ -3,10 +3,10 @@ import OrganizerSideBar from "../../components/organizer/OrganizerSideBar";
 
 function OrganizerLayout() {
   return (
-    <div className="flex min-h-screen flex-col md:flex-row bg-[#F4F4F4]">
+    <div className="flex h-screen overflow-hidden flex-col md:flex-row bg-[#F4F4F4]">
       <OrganizerSideBar />
 
-      <main className="min-w-0 flex-1 px-30 py-20 bg-white">
+      <main className="min-w-0 flex-1 px-30 py-20 bg-white overflow-y-auto">
         <Outlet />
       </main>
     </div>

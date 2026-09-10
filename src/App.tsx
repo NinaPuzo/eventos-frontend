@@ -21,6 +21,7 @@ import CreateEventPage from "./pages/organizer/CreateEventPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import UserTicketsPage from "./pages/profile/UserTicketsPage";
 import ProfileLayout from "./pages/profile/ProfileLayout";
+import EventEditingPage from "./pages/organizer/EventEditPage";
 
 function App() {
   const authContext = useContext(AuthContext);
@@ -86,11 +87,20 @@ function App() {
             <Route path="users" element={<AdminPage />} />
           </Route>
 
-          {/* Vratiti ProtectedRoute kada backend počne da vraća roleId */}
-          <Route path="/organizer" element={<OrganizerLayout />}>
+          <Route
+            path="/organizer"
+            element={
+              <ProtectedRoute
+                element={<OrganizerLayout />}
+                allowedRoleIds={["216e50f0-b90c-428c-85f3-a35d2d3f2a5a"]}
+                userRoleId={currentUser?.roleId ?? ""}
+              />
+            }
+          >
             <Route index element={<Navigate to="events" replace />} />
             <Route path="events" element={<OrganizerEventsPage />} />
             <Route path="events/create" element={<CreateEventPage />} />
+            <Route path="events/:id/edit" element={<EventEditingPage />} />
           </Route>
         </Routes>
       </main>

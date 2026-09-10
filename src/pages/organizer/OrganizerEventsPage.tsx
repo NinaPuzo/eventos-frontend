@@ -90,7 +90,9 @@ function OrganizerEventsPage() {
                 key={event.id}
                 event={event}
                 onViewSalesDetails={() => navigate("/organizer/events/sales")}
-                onEditEvent={() => navigate("/organizer/events/edit")}
+                onEditEvent={() =>
+                  navigate(`/organizer/events/${event.id}/edit`)
+                }
                 onCancelEvent={() => handleCancelEvent(event.id)}
                 onDeleteEvent={() => handleDeleteEvent(event.id)}
               />

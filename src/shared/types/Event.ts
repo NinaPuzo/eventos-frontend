@@ -11,4 +11,5 @@ export type Event = {
   isCanceled: boolean;
   startTime: string;
   endTime: string | null;
+  image: File | null;
 };
