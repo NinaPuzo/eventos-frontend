@@ -14,6 +14,8 @@ function EventDetailsPage() {
 
       const receivedEvent = await getEventsById(id);
 
+      if (!receivedEvent) return;
+
       setEvent(receivedEvent);
     }
 
@@ -22,7 +24,7 @@ function EventDetailsPage() {
 
   return (
     <div className="flex flex-col  w-full py-[140px] pl-[155px] pr-[155px]">
-      <div className="flex flex-row mx-auto w-[90%] py-12 px-15 gap-30 min-h-[400px] rounded-2xl border-white/10 shadow-2xl text-white bg-gradient-to-br from-[#303030] via-[#242424] to-[#171717]">
+      <div className="flex flex-row mx-auto w-[90%] py-14 px-23 gap-20 min-h-[400px] rounded-2xl border-white/10 shadow-2xl text-white bg-gradient-to-br from-[#303030] via-[#242424] to-[#171717]">
         <div className="h-[400px] w-[350px] shrink-0 overflow-hidden rounded-lg bg-[#303030]">
           <img
             src={`https://eventosapi-abeueqcbg8grcqfe.austriaeast-01.azurewebsites.net/api/events/${event?.id}/image`}
