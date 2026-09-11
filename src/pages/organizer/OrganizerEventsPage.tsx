@@ -72,12 +72,8 @@ function OrganizerEventsPage() {
 
   return (
     <div className="p-8 text-[#333333]">
-      <div className="mb-10">
+      <div className="mb-10 text-3xl font-semibold text-[#181818] md:text-4xl">
         <h1> Pregled događaja</h1>
-
-        <p className="mt-2 text-[#777777]">
-          Pregled događaja koje ste kreirali
-        </p>
       </div>
 
       {events.length === 0 ? (
@@ -89,12 +85,12 @@ function OrganizerEventsPage() {
               <OrganizerEventCard
                 key={event.id}
                 event={event}
-                onViewSalesDetails={() => navigate("/organizer/events/sales")}
+                onViewSalesDetails={() =>
+                  navigate(`/organizer/events/${event.id}/sales`)
+                }
                 onEditEvent={() =>
                   navigate(`/organizer/events/${event.id}/edit`)
                 }
-                onCancelEvent={() => handleCancelEvent(event.id)}
-                onDeleteEvent={() => handleDeleteEvent(event.id)}
               />
             ))}
         </div>

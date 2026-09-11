@@ -12,6 +12,7 @@ import AuthContext from "../../context/AuthContext";
 import type { CreateEventRequest } from "@shared/types/CreateEventRequest";
 import { createEvent, getAvailableControllers } from "../../api/eventsService";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function CreateEventPage() {
   const [eventName, setEventName] = useState("");
@@ -149,18 +150,23 @@ function CreateEventPage() {
 
     try {
       await createEvent(newEvent);
+      toast.success("Događaj je uspešno kreiran.");
       navigate("/organizer/events");
-      alert("Događaj je uspešno kreiran!");
     } catch (error) {
       console.error("Greska");
+      toast.error("Kreiranje događaja nije uspelo.");
     }
   }
 
   return (
-    <div className="mx-auto h-full w-full max-w-6xl rounded-[10px] border border-[#E5E5E5] p-4 text-[#333333] md:p-6 lg:p-10">
-      <h1 className="mb-8 text-3xl font-semibold md:text-4xl">
-        Kreiraj događaj
-      </h1>
+    <div className="mx-auto h-full w-full bg-white max-w-6xl rounded-[10px] border border-[#E5E5E5] p-4 text-[#333333] md:p-6 lg:p-10">
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-3xl font-semibold text-[#181818] md:text-4xl">
+          Kreiraj događaj
+        </h1>
+      </div>
+
+      <div className="mb-8 border-t border-[#E5E5E5]" />
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="flex min-w-0 flex-col gap-4">
@@ -176,7 +182,7 @@ function CreateEventPage() {
                 label: category.categoryName,
               }))
             }
-            className="w-full h-[48px] rounded-[10px] px-5 text-[16px] text-black placeholder:text-[#ADADAD]"
+            className="w-full h-[48px] rounded-[10px] px-5 text-[16px] "
           />
 
           <Input
@@ -228,14 +234,28 @@ function CreateEventPage() {
             autoComplete="off"
           />
 
-          <Input
-            id="image"
-            type="file"
-            onChange={handleImageChange}
-            placeholder="Fotografija događaja"
-            accept="image/jpeg,image/png,image/gif,image/webp"
-            className="border rounded-[10px] h-[48px] w-full px-5 text-[16px] text-[#A5A5A5]"
-          />
+          <div className="flex h-12 w-full items-center gap-4">
+            <label
+              htmlFor="image"
+              className="flex h-12 w-[250px] shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-gray-300 bg-gray-100 text-sm  text-[#181818] transition-all duration-200 hover:scale-[1.02] hover:bg-gray-100"
+            >
+              Izaberi sliku
+            </label>
+
+            <input
+              id="image"
+              type="file"
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              onChange={handleImageChange}
+              className="hidden"
+            />
+
+            <div className="flex h-12 min-w-0 flex-1 items-center rounded-[10px] border border-gray-300 px-4">
+              <span className="truncate text-sm text-gray-500">
+                {image ? image.name : "Slika nije izabrana"}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div className="flex min-w-0 flex-col gap-4">
@@ -283,7 +303,7 @@ function CreateEventPage() {
             type="button"
             label="Prikaži dostupne kontrolore"
             onClick={handleAvailableControllers}
-            className="flex h-[48px] w-full cursor-pointer items-center justify-center rounded-[10px] border "
+            className="flex h-12 w-full cursor-pointer items-center justify-center rounded-[10px] border border-gray-300 bg-gray-100 text-sm font-medium text-[#181818] transition hover:bg-gray-100"
           />
 
           <div className="flex flex-col gap-2">
@@ -302,7 +322,7 @@ function CreateEventPage() {
           <div className="w-full overflow-hidden rounded-md border border-gray-300">
             <DataTable
               columns={controllerColumns}
-              data={availableControllers}
+              data={filterController}
               selectableRows
               onSelectedRowsChange={handleSelectedRows}
               noDataComponent="Nema dostupnih kontrolora"

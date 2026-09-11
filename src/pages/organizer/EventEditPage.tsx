@@ -18,6 +18,7 @@ import DataTable, { type TableColumn } from "react-data-table-component";
 import type { Category } from "@shared/types/Category";
 import type { User } from "@shared/types/User";
 import { getCategories } from "../../api/categoryService";
+import toast from "react-hot-toast";
 
 function EventEditingPage() {
   const { id } = useParams();
@@ -163,14 +164,14 @@ function EventEditingPage() {
 
       const updatedControllers = await getAssignedControllers(id);
 
-      console.log("Kontrolori posle dodavanja:", updatedControllers);
+      toast.success("Kontrolori su uspešno dodati.");
 
       setAssignedControllers(updatedControllers);
 
       setControllerIds([]);
       setIsControllerModalOpen(false);
     } catch (error) {
-      console.error("Greška pri dodavanju kontrolora.", error);
+      toast.error("Dodavanje kontrolora nije uspelo.");
     }
   }
 
@@ -182,7 +183,6 @@ function EventEditingPage() {
 
     try {
       setIsSaving(true);
-      setMessage("");
 
       const isUpdated = await updateEvent(id, {
         userId: event.userId,
@@ -199,10 +199,12 @@ function EventEditingPage() {
         controllerIds: assignedControllers.map((controller) => controller.id),
       });
 
+      toast.success("Događaj je uspešno izmenjen.");
+
       if (isUpdated) {
         navigate("/organizer/events");
       } else {
-        setMessage("Izmena događaja nije uspela.");
+        toast.error("Izmena događaja nije uspela.");
       }
     } finally {
       setIsSaving(false);
@@ -216,26 +218,27 @@ function EventEditingPage() {
       setEvent((currentEvent) =>
         currentEvent ? { ...currentEvent, isCanceled: true } : null,
       );
-
+      toast.success("Događaj je uspešno otkazan.");
       return true;
     }
 
     return false;
   }
 
-  async function handleDeleteEvent(eventId: string): Promise<boolean> {
-    const success = await deleteEvent(eventId);
+  async function handleDeleteEvent(eventId: string): Promise<void> {
+    try {
+      await deleteEvent(eventId);
 
-    if (success) {
+      toast.success("Događaj je uspešno obrisan.");
       navigate("/organizer/events");
-      return true;
+    } catch (error) {
+      console.error("Greška prilikom brisanja događaja:", error);
+      toast.error("Brisanje događaja nije uspelo.");
     }
-
-    return false;
   }
 
   return (
-    <div className="mx-auto min-h-full w-full max-w-6xl rounded-[10px] border border-[#E5E5E5] p-4 text-[#333333] md:p-6 lg:p-10">
+    <div className="mx-auto min-h-full w-full bg-white max-w-6xl rounded-[10px] border border-[#E5E5E5] p-4 text-[#333333] md:p-6 lg:p-10">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-4xl font-semibold text-[#181818]">
           Izmeni događaj

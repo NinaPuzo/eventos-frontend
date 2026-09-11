@@ -35,7 +35,7 @@ function Select({
         value={value}
         onChange={onChange}
         required={required}
-        className={`h-10 rounded-[10px] text-[16px] border border-[#555555] bg-transparent text-[#A5A5A5] outline-none ${className}`}
+        className={`h-10 rounded-[10px] text-[16px] border border-[#ADADAD] bg-transparent text-[#A5A5A5] outline-none ${className}`}
       >
         <option value="">Izaberi opciju</option>
 

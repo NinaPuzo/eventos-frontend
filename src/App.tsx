@@ -22,6 +22,10 @@ import ProfilePage from "./pages/profile/ProfilePage";
 import UserTicketsPage from "./pages/profile/UserTicketsPage";
 import ProfileLayout from "./pages/profile/ProfileLayout";
 import EventEditingPage from "./pages/organizer/EventEditPage";
+import { Toaster } from "react-hot-toast";
+import OrganizerEventsStatisticsPage from "./pages/organizer/OrganizerEventsStatisticsPages";
+import EventSalesDetailsPage from "./pages/organizer/EventSalesDetailsPage";
+import ControllerPage from "./pages/controllor/ControllerPage";
 
 function App() {
   const authContext = useContext(AuthContext);
@@ -73,6 +77,17 @@ function App() {
         isOrganizerPage || isAdminPage ? "bg-[#232323]" : "bg-[#1A1A1A]"
       }`}
     >
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#ffffff",
+            color: "#181818",
+          },
+        }}
+      />
+
       {!isOrganizerPage && !isAdminPage && !isProfilePage && <Header />}
 
       <main className="flex-1">
@@ -117,8 +132,28 @@ function App() {
             <Route index element={<Navigate to="events" replace />} />
             <Route path="events" element={<OrganizerEventsPage />} />
             <Route path="events/create" element={<CreateEventPage />} />
+            <Route
+              path="events/statistics"
+              element={<OrganizerEventsStatisticsPage />}
+            />
             <Route path="events/:id/edit" element={<EventEditingPage />} />
+            <Route
+              path="events/:id/sales"
+              element={<EventSalesDetailsPage />}
+            />
           </Route>
+
+          <Route
+            path="/controller"
+            element={
+              <ProtectedRoute
+                element={<ControllerPage />}
+                allowedRoleIds={["d75ac8f5-3521-4d77-9f42-72f147f32199"]}
+                userRoleId={currentUser?.roleId ?? ""}
+                isLoading={isLoading}
+              />
+            }
+          />
         </Routes>
       </main>
 
