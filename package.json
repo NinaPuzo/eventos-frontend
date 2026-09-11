@@ -16,7 +16,9 @@
     "react-data-table-component": "^8.8.2",
     "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.8",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.18.2",
+    "recharts": "^3.10.1",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {

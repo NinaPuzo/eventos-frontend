@@ -2,6 +2,7 @@ import type { CreateEventRequest } from "@shared/types/CreateEventRequest";
 import type { Event } from "../shared/types/Event";
 import { ApiClient } from "./apiClient";
 import type { User } from "@shared/types/User";
+import type { Statistics, StatisticsCompare } from "@shared/types/Statistics";
 
 export async function getEvents(): Promise<Event[]> {
   const response = await ApiClient.get<Event[]>("/api/events");
@@ -91,6 +92,24 @@ export async function getMyEvents(): Promise<Event[]> {
   return response.data;
 }
 
+export async function getMyEventsStatistics(
+  eventIds: string[],
+): Promise<StatisticsCompare[]> {
+  const response = await ApiClient.get<StatisticsCompare[]>(
+    "/api/events/statistics/compare",
+    {
+      params: {
+        eventIds,
+      },
+      paramsSerializer: {
+        indexes: null,
+      },
+    },
+  );
+
+  return response.data;
+}
+
 export async function cancelEvent(eventId: string): Promise<boolean> {
   const response = await ApiClient.get(`/api/events/${eventId}/cancel`);
 
@@ -99,6 +118,12 @@ export async function cancelEvent(eventId: string): Promise<boolean> {
 
 export async function deleteEvent(eventId: string): Promise<boolean> {
   const response = await ApiClient.delete(`/api/events/${eventId}`);
+
+  return response.data;
+}
+
+export async function getEventStatistics(eventId: string): Promise<Statistics> {
+  const response = await ApiClient.get(`/api/events/${eventId}/statistics`);
 
   return response.data;
 }

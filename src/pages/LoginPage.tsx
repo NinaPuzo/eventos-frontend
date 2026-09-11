@@ -37,18 +37,23 @@ function LoginPage() {
       const user = await getUser();
 
       setCurrentUser(user);
-
-      if (user.roleId === "216e50f0-b90c-428c-85f3-a35d2d3f2a5a") {
-        navigate("/organizer/events");
-      } else if (user.roleId === "28a9697e-4b45-4e31-a17e-f598c9505e33") {
-        navigate("/admin/users");
-      } else {
-        navigate("/");
-      }
-
       console.log(user);
+      switch (user.roleId) {
+        case "216e50f0-b90c-428c-85f3-a35d2d3f2a5a":
+          navigate("/organizer/events");
+          break;
+        case "28a9697e-4b45-4e31-a17e-f598c9505e33":
+          navigate("/admin/users");
+          break;
+        case "d75ac8f5-3521-4d77-9f42-72f147f32199":
+          console.log("Kontroler");
+          navigate("/controller");
+          break;
 
-      console.log("Uspeo sam");
+        default:
+          navigate("/");
+          break;
+      }
     } else if (authStatus === AuthStatus.UNAUTHORIZED) {
       setError("Pogrešan e-mail ili lozinka.");
       setPassword("");
