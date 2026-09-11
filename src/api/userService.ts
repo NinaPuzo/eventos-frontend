@@ -1,4 +1,4 @@
-import type { User } from "@shared/types/User";
+import type { User, UserTickets } from "@shared/types/User";
 import { ApiClient } from "./apiClient";
 import { mockControllers } from "../data/controllers";
 
@@ -59,4 +59,12 @@ export async function updateUser(user: User): Promise<void> {
     lastName: user.lastName,
     roleId: user.roleId,
   });
+}
+
+export async function getMyPurchases(): Promise<UserTickets[]> {
+  const response = await ApiClient.get<UserTickets[]>(
+    "/api/users/my-purchases",
+  );
+
+  return response.data;
 }

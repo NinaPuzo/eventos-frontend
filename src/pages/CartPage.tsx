@@ -71,7 +71,7 @@ function CartPage() {
         </div>
       </div>
 
-      <div className="flex flex-col mt-20 w-1/3 rounded-xl bg-[#303030] p-8 text-white gap-6">
+      <div className="flex flex-col mt-20 w-1/3 h-fit border border-[#5D5D5D] rounded-[25px] p-8 text-white gap-6">
         <div className="border-b pb-3 border-[#5D5D5D]">
           <h1 className="text-[#B9B9B9] text-center"> Pregled porudžbine</h1>
         </div>

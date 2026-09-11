@@ -12,6 +12,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,8 +28,9 @@ function LoginPage() {
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-
+    setIsLoginLoading(true);
     const authStatus = await login({ email, password });
+    setIsLoginLoading(false);
 
     if (authStatus === AuthStatus.AUTHORIZED) {
       // pozovi get user
@@ -98,11 +100,17 @@ function LoginPage() {
 
           {error && <p className="text-center text-sm text-red-600">{error}</p>}
 
-          <Button
-            type="submit"
-            className="cursor-pointer h-[48px] bg-[#E98400] p-2 rounded-[5px] text-white font-semibold mt-6"
-            label="Nastavi"
-          />
+          {isLoginLoading ? (
+            <div className="flex flex-col justify-center items-center cursor-pointer h-[48px] bg-[#E98400] p-2 rounded-[5px] text-white font-semibold mt-6">
+              <div className="h-5 w-5 animate-spin rounded-full border-4 border-white/30 border-t-white" />
+            </div>
+          ) : (
+            <Button
+              type="submit"
+              className="cursor-pointer h-[48px] bg-[#E98400] p-2 rounded-[5px] text-white font-semibold mt-6"
+              label="Nastavi"
+            />
+          )}
 
           <p className="mt-1 text-s text-[#4D4D4D] mb-10">
             Nemate nalog?{" "}

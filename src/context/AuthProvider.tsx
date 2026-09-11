@@ -9,10 +9,22 @@ type AuthProviderProps = {
 function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
+  const [isLoading, setIsLoading] = useState(
+    () => !!localStorage.getItem("accessToken"),
+  );
+
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        setCurrentUser,
+        isLoading,
+        setIsLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
+
 export default AuthProvider;

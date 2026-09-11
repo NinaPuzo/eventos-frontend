@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addControllersToEvent,
+  cancelEvent,
+  deleteEvent,
   getAssignedControllers,
   getAvailableControllers,
-  getEventImage,
   getEventsById,
   updateEvent,
 } from "../../api/eventsService";
@@ -154,23 +155,6 @@ function EventEditingPage() {
     }
   }
 
-  // function handleAddControllers() {
-  //   const selectedControllers = availableControllers.filter((controller) =>
-  //     controllerIds.includes(controller.id),
-  //   );
-
-  //   setAssignedControllers((currentControllers) => [
-  //     ...currentControllers,
-  //     ...selectedControllers.filter(
-  //       (selectedController) =>
-  //         !currentControllers.some(
-  //           (controller) => controller.id === selectedController.id,
-  //         ),
-  //     ),
-  //   ]);
-
-  //   setIsControllerModalOpen(false);
-  // }
   async function handleAddControllers() {
     if (!id || controllerIds.length === 0) return;
 
@@ -225,11 +209,60 @@ function EventEditingPage() {
     }
   }
 
+  async function handleCancelEvent(eventId: string): Promise<boolean> {
+    const success = await cancelEvent(eventId);
+
+    if (success) {
+      setEvent((currentEvent) =>
+        currentEvent ? { ...currentEvent, isCanceled: true } : null,
+      );
+
+      return true;
+    }
+
+    return false;
+  }
+
+  async function handleDeleteEvent(eventId: string): Promise<boolean> {
+    const success = await deleteEvent(eventId);
+
+    if (success) {
+      navigate("/organizer/events");
+      return true;
+    }
+
+    return false;
+  }
+
   return (
     <div className="mx-auto min-h-full w-full max-w-6xl rounded-[10px] border border-[#E5E5E5] p-4 text-[#333333] md:p-6 lg:p-10">
-      <h1 className="mb-8 text-3xl font-semibold md:text-4xl">
-        Izmeni događaj
-      </h1>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-4xl font-semibold text-[#181818]">
+          Izmeni događaj
+        </h1>
+
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => id && handleCancelEvent(id)}
+            className=" rounded-[10px] border border-[#A7A7A7] bg-white px-5 py-2.5 text-sm font-medium text-[#A7A7A7] transition-all duration-200 hover:scale-[1.02]
+               hover:border-[#E98400] hover:bg-[#E98400]/10  hover:text-black"
+          >
+            Otkaži događaj
+          </button>
+
+          <button
+            type="button"
+            onClick={() => id && handleDeleteEvent(id)}
+            className="rounded-[10px] border border-[#A7A7A7] bg-white px-5 py-2.5 text-sm font-medium text-[#A7A7A7] transition-all duration-200 hover:scale-[1.02]
+            hover:border-[#E98400] hover:bg-[#E98400]/10 hover:text-black"
+          >
+            Obriši događaj
+          </button>
+        </div>
+      </div>
+
+      <div className="mb-8 border-t border-[#E5E5E5]" />
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="flex min-w-0 flex-col gap-4">
@@ -429,7 +462,7 @@ function EventEditingPage() {
           type="button"
           onClick={handleUpdateEvent}
           disabled={isSaving}
-          className=" w-full flex cursor-pointer bg-[#E98400] items-center justify-center h-[48px] rounded-[10px] font-semibold text-xl text-white transition hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-60"
+          className=" w-full flex cursor-pointer bg-[#E98400] items-center justify-center h-[48px] rounded-[10px] font-semibold text-xl text-white "
         >
           {isSaving ? "Čuvanje..." : "Sačuvaj izmene"}
         </button>

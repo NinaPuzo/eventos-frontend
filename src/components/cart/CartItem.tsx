@@ -21,15 +21,18 @@ function CartItem({
   const { date, time } = formatEventDate(event.startTime);
 
   return (
-    <div className="flex flex-row w-full gap-7 rounded-[25px] bg-[#303030] p-8 text-white">
-      <div className="flex flex-1 flex-col">
-        <p className="text-xl font-semibold">{event.eventName}</p>
-        <div>
-          <p className="mt-2 text-gray-300">
-            {date} - {time}
-          </p>
+    <div className="flex flex-row h-full w-full gap-7 rounded-[25px] border border-[#5D5D5D] p-8 text-white">
+      <div className="flex flex-1 flex-col h-full justify-between">
+        <div className="flex flex-col gap-2">
+          <p className="text-xl font-semibold">{event.eventName}</p>
 
-          <p className="mt-1 text-gray-300">{event.locationName}</p>
+          <div>
+            <p className="mt-2 text-gray-300">
+              {date} - {time}
+            </p>
+
+            <p className="mt-1 text-gray-300">{event.locationName}</p>
+          </div>
         </div>
 
         <div className="flex flex-col gap-4 border-t border-[#5D5D5D] pt-4 mt-6">
@@ -70,7 +73,8 @@ function CartItem({
       <div>
         <img
           alt="Slika dogadjaja"
-          className="border rounded-[25px] p-4 w-[216px] h-[312px] text-white"
+          className="rounded-[25px] w-[216px] h-[312px] text-white"
+          src={`https://eventosapi-abeueqcbg8grcqfe.austriaeast-01.azurewebsites.net/api/events/${event.id}/image`}
         />
       </div>
     </div>

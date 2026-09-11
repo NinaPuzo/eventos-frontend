@@ -21,7 +21,7 @@ function AdminSidebar() {
   }
 
   return (
-    <aside className="flex flex-col min-h-screen w-86 border-r border-[#C8C2C2] bg-white p-6 shadow-xl">
+    <aside className="flex flex-col h-screen shrink-0 overflow-y-auto w-86 border-r border-[#C8C2C2] bg-white p-6 shadow-xl ">
       <nav className="flex flex-col gap-4">
         <NavLink
           to="/admin/users"

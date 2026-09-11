@@ -85,26 +85,33 @@ function AdminPage() {
   }, []);
 
   return (
-    <div>
-      <h1>Pregled korisnika</h1>
+    <div className="flex h-[650px] flex-col">
+      <h1 className="mb-2 text-lg font-medium">Pregled korisnika</h1>
 
       <select
         value={selectedRoleId}
         onChange={(event) => setSelectedRoleId(event.target.value)}
+        className="mb-4 w-fit bg-white outline-none"
       >
         <option value="">Sve role</option>
 
-        {roles &&
-          roles.map((role) => (
-            <option key={role.id} value={role.id}>
-              {role.roleName}
-            </option>
-          ))}
+        {roles?.map((role) => (
+          <option key={role.id} value={role.id}>
+            {role.roleName}
+          </option>
+        ))}
       </select>
 
-      {message && <p>{message}</p>}
+      {message && <p className="mb-3">{message}</p>}
 
-      <DataTable columns={columns} data={filteredUsers} />
+      <div className="min-h-0 flex-1">
+        <DataTable
+          columns={columns}
+          data={filteredUsers}
+          fixedHeader
+          fixedHeaderScrollHeight="520px"
+        />
+      </div>
     </div>
   );
 }

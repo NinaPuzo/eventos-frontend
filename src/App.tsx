@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminPage from "./pages/admin/AdminPage";
 import AdminLayout from "./pages/admin/AdminLayout";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import RegisterPage from "./pages/RegisterPage";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -33,24 +33,39 @@ function App() {
   const isRegisterPage = location.pathname.startsWith("/register");
   const isProfilePage = location.pathname.startsWith("/profile");
 
-  const [error, setError] = useState("");
+  //const [error, setError] = useState("");
 
   if (!authContext) {
     throw new Error("App mora biti unutar AuthProvider-a");
   }
 
-  const { currentUser } = authContext;
+  const { currentUser, setCurrentUser, isLoading, setIsLoading } = authContext;
 
   useEffect(() => {
     async function getCurrentUser() {
-      const user = await getUser();
-      authContext?.setCurrentUser(user);
+      try {
+        const user = await getUser();
+        setCurrentUser(user);
+      } catch (error) {
+        console.error("Greška pri učitavanju korisnika.", error);
+        setCurrentUser(null);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     if (localStorage.getItem("accessToken")) {
       getCurrentUser();
     }
-  }, []);
+  }, [setCurrentUser, setIsLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-[#181818]" />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -80,6 +95,7 @@ function App() {
                 element={<AdminLayout />}
                 allowedRoleIds={["28a9697e-4b45-4e31-a17e-f598c9505e33"]}
                 userRoleId={currentUser?.roleId ?? ""}
+                isLoading={isLoading}
               ></ProtectedRoute>
             }
           >
@@ -94,6 +110,7 @@ function App() {
                 element={<OrganizerLayout />}
                 allowedRoleIds={["216e50f0-b90c-428c-85f3-a35d2d3f2a5a"]}
                 userRoleId={currentUser?.roleId ?? ""}
+                isLoading={isLoading}
               />
             }
           >

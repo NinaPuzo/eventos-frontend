@@ -28,13 +28,13 @@ function EventPage() {
   }, [selectedCategoryId]);
 
   return (
-    <div className="w-full">
+    <div className="w-full px-60 py-15">
       {events.length === 0 ? (
         <p className="text-lg text-white p-10 px-60">
           Trenutno nema događaja u ovoj kategoriji.
         </p>
       ) : (
-        <div className="grid grid-cols-1 gap-5 px-6 py-20 md:grid-cols-2 md:px-20">
+        <div className="grid grid-cols-5 gap-12 w-full">
           {events.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}

@@ -3,10 +3,10 @@ import AdminSidebar from "../../components/admin/AdminSidebar";
 
 function AdminLayout() {
   return (
-    <div className="flex min-h-screen flex-col md:flex-row bg-[#F4F4F4]">
+    <div className="flex h-screen overflow-hidden flex-col md:flex-row bg-[#F4F4F4]">
       <AdminSidebar />
 
-      <main className="min-w-0 flex-1 px-30 py-20 bg-white">
+      <main className="min-w-0 flex-1 px-30 py-8 bg-white overflow-y-auto">
         <Outlet />
       </main>
     </div>
